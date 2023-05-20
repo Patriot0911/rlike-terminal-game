@@ -1,6 +1,7 @@
-const { Item } = require('./classes/item');
-const { clrs } = require('./globals');
+const fs = require('fs');
 const stdout = process.stdout;
+const { Item } = require('./classes/item');
+const { clrs, game_configs } = require('./globals');
 
 
 const getDisplayItemName = (name) => {
@@ -47,12 +48,25 @@ const longest = (arr) => {
     return len;
 }
 
-const deleteSave = (name) => {
-    //
+const parseFile = (path) =>{
+    const saveFile = fs.readFileSync(path, { 
+        encoding: 'utf8',
+        flag: 'r'
+    });
+    return JSON.parse(saveFile);
+} 
+
+const deleteSave = (key) => {
+    const saveFile = parseFile(`./${game_configs['saves']}`);
+    delete saveFile[key];
+    fs.writeFileSync(`./${game_configs['saves']}`, JSON.stringify(saveFile), {
+      encoding: "utf8",
+      flag: "w",
+      mode: 0o666
+    });
 }
 
 module.exports = {
-    // regRandom,
     getDisplayItemName,
     replaceClr,
     clrlog,
@@ -61,5 +75,6 @@ module.exports = {
     exit,
     sleep,
     longest,
-    deleteSave
+    deleteSave,
+    parseFile
 };

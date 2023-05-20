@@ -3,17 +3,15 @@ const { Selector } = require('../classes/selector');
 const { gMenus } = require('../globals');
 
 const HndlMainMenu = async (userdata = undefined, data) => {
-    console.log(data);
-
-    switch(data.toLowerCase()){
-        case 'play' :
+    switch(data){
+        case 'Play' :
 
         break;
-        case 'saves' :
+        case 'Saves' :
             console.clear();
             gMenus.get('savesmainmenu')().show();
         break;
-        case 'editor' :
+        case 'Editor' :
 
         break;
     }

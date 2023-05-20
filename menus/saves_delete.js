@@ -1,25 +1,33 @@
-const { clrlog, sleep, deleteSave } = require('../utils');
+const { clrlog, sleep, deleteSave, parseFile } = require('../utils');
 const { Selector } = require('../classes/selector');
 const { gMenus, game_configs } = require('../globals');
 const fs = require('fs');
 
 const HndlSavesDeleteMenu = async (userdata, data) => {
+    if(data == 'Back'){
+        gMenus.get('savesmainmenu')().show();
+        return;
+    }
     clrlog(`{green} Deleting save '${data}'...{/green}`);
-    await sleep(5000);
-    console.clear();
-    // if(deleteSave(data))
+    deleteSave(data)
+    await sleep(1000);
     clrlog(`{green}'${data}' has been deleted!{/green}`);
+    await sleep(500);
+    gMenus.get('savesmainmenu')().show();
 }
-module.exports = {   
+
+module.exports = {
     menu(userdata, args){
-        const saveFile = fs.readFileSync(`./${game_configs['saves']}`,{ encoding: 'utf8', flag: 'r' });
         const params = [];
-        const savelist = JSON.parse(saveFile);
-        for(const item in savelist){
-            params.push([item]);
+        const savelist = parseFile(`./${game_configs['saves']}`);
+        if(Object.keys(savelist).length){
+            for(const item in savelist){
+                params.push([item]);
+            }
         }
+        params.push(['Back']);
         return new Selector({
-            question:   "Select Save to delete:",
+            question:   `Select Save to delete:`,
             options:    params,
             params:     params,
             begin: {

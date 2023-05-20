@@ -23,10 +23,10 @@ class Selector {
         };
     }
     
-    setOptions(arg){
+    setOptions(arg) {
         this.options = arg;
     }
-    setParams(arg){
+    setParams(arg) {
         this.params = arg;
     }
     setCallback(func, params = '$data'){

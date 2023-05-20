@@ -2,15 +2,16 @@ const { Selector } = require('../classes/selector');
 const { gMenus } = require('../globals');
 
 const HndlSavesMainMenu = (userdata, data) => {
-    switch(data.toLowerCase()){
-        case 'select' :
-
+    switch(data){
+        case 'Create' :
+            console.clear();
+            gMenus.get('savescreatemenu')();
         break;
-        case 'delete' :
+        case 'Delete' :
             console.clear();
             gMenus.get('savesdeletemenu')().show();
         break;
-        case 'back' :
+        case 'Back' :
             console.clear();
             gMenus.get('mainmenu')().show();
         break;
@@ -19,7 +20,7 @@ const HndlSavesMainMenu = (userdata, data) => {
 module.exports = {   
     menu(userdata, args){
         const params = [
-            ['Select'],
+            ['Create'],
             ['Delete'],
             ['Back']
         ];
