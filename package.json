@@ -1,0 +1,15 @@
+{
+  "name": "th",
+  "version": "1.0.0",
+  "description": "From zero to hero",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "latest": "^0.2.0",
+    "node": "^20.1.0"
+  }
+}

@@ -1,0 +1,42 @@
+{
+    "0_":
+    {
+        "name":     "",
+        "lvl":      "",
+        "ups":
+        {
+            "health":       "",
+            "strength":     "",
+            "agility":      "",
+            "intelligence": ""
+        },
+        "weapon":
+        {
+            
+        },
+        "armor":
+        {
+            
+        }
+    },
+    "1_":
+    {
+        "name":     "",
+        "lvl":      "",
+        "ups":
+        {
+            "health":       "",
+            "strength":     "",
+            "agility":      "",
+            "intelligence": ""
+        },
+        "weapon":
+        {
+            
+        },
+        "armor":
+        {
+            
+        }
+    }
+}
