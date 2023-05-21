@@ -33,7 +33,13 @@ class Selector {
         this.gotoFunc       = func;
         this.callbackArgs   = params;
     }
-
+    setBegin(args) {
+        this.begin = {
+            x: args.x,
+            y: args.y
+        }
+        console.log(this.begin);
+    }
     show() {
         rdl.cursorTo(stdout, this.begin.x, this.begin.y)
         stdout.write(this.question + '\n')

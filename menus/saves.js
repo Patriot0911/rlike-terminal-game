@@ -5,7 +5,7 @@ const HndlSavesMainMenu = (userdata, data) => {
     switch(data){
         case 'Create' :
             console.clear();
-            gMenus.get('savescreatemenu')();
+            gMenus.get('savescreatemenu')().show();
         break;
         case 'Delete' :
             console.clear();
@@ -17,8 +17,11 @@ const HndlSavesMainMenu = (userdata, data) => {
         break;
     }
 }
-module.exports = {   
-    menu(userdata, args){
+module.exports = {
+    menu(userdata, args = {
+        x: 0,
+        y: 0
+    }) {
         const params = [
             ['Create'],
             ['Delete'],
@@ -28,10 +31,7 @@ module.exports = {
             question:   " ",
             options:    params,
             params:     params,
-            begin: {
-                x: 0,
-                y: 0
-            }
+            begin:      args
         }, HndlSavesMainMenu);
     }
 };
