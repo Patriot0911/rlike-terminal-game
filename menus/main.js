@@ -2,10 +2,11 @@ const { sleep, clrlog } = require('../utils');
 const { Selector } = require('../classes/selector');
 const { gMenus } = require('../globals');
 
-const HndlMainMenu = async (userdata = undefined, data) => {
+const HndlMainMenu = async (userdata, data) => {
     switch(data){
         case 'Play' :
-
+            console.clear();
+            gMenus.get('playmainmenu')().show();
         break;
         case 'Saves' :
             console.clear();

@@ -18,10 +18,7 @@ const HndlSavesMainMenu = (userdata, data) => {
     }
 }
 module.exports = {
-    menu(userdata, args = {
-        x: 0,
-        y: 0
-    }) {
+    menu(userdata, args) {
         const params = [
             ['Create'],
             ['Delete'],
@@ -31,7 +28,10 @@ module.exports = {
             question:   " ",
             options:    params,
             params:     params,
-            begin:      args
+            begin:      {
+                x: 0,
+                y: 0
+            }
         }, HndlSavesMainMenu);
     }
 };

@@ -13,6 +13,7 @@ const HndlSavesDeleteMenu = async (userdata, data) => {
     await sleep(1000);
     clrlog(`{green}'${data}' has been deleted!{/green}`);
     await sleep(500);
+    console.clear();
     gMenus.get('savesmainmenu')().show();
 }
 

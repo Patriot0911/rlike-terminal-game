@@ -23,23 +23,26 @@ class Selector {
         };
     }
     
-    setOptions(arg) {
-        this.options = arg;
+    setQuest(str) {
+        this.question = str;
+        return this;
     }
-    setParams(arg) {
-        this.params = arg;
+    setCoords(args) {
+        this.begin.x = args.x ? args.x : this.begin.x;
+        this.begin.y = args.y ? args.y : this.begin.y;
+        return this;
+    }
+    setOptions(opt, params) {
+        this.options = opt ? opt : this.options;
+        this.params  = params ? params : this.options
+        return this;
     }
     setCallback(func, params = '$data'){
         this.gotoFunc       = func;
         this.callbackArgs   = params;
+        return this;
     }
-    setBegin(args) {
-        this.begin = {
-            x: args.x,
-            y: args.y
-        }
-        console.log(this.begin);
-    }
+    
     show() {
         rdl.cursorTo(stdout, this.begin.x, this.begin.y)
         stdout.write(this.question + '\n')
