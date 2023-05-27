@@ -39,13 +39,18 @@ const sleep = (time) => new Promise(resolve => {
 });
 
 const longest = (arr) => {
-    let len = 0;
+    let len = 0, arrlen = 0;
     for(const i of arr){
-        if(i.length > len){
-            len = i.length;
+        if(arrlen < i.length){
+            arrlen = i.length;
+        }
+        for(const l of i){
+            if(l.length > len){
+                len = l.length;
+            }
         }
     }
-    return len;
+    return [len, arrlen];
 }
 
 const parseFile = (path) =>{

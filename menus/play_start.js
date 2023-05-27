@@ -7,24 +7,16 @@ const HndlPlayMainMenu = async (userdata, data) => {
         gMenus.get('mainmenu')().show();
         return;
     }
-    gMenus.get('playstart')(userdata).show();
-    console.log(data);    
+    console.clear();
+    gMenus.get('playstart')().show();
 }
 module.exports = {   
     menu(userdata, args){
-        const savelist = parseFile(`./${game_configs['saves']}`);
-        if(!Object.keys(savelist).length){
-            return gMenus.get('savesmainmenu')()
-            .setCoords({
-                y: 1
-            })
-            .setQuest('No saves found. Create new to play.');
-        }
-        const params = [];
-        for(const item in savelist){
-            params.push([item]);
-        }
-        params.push(['Back']);
+        console.log(userdata);
+        const params = [
+            ["test"],
+            ["test2"]
+        ];
         return new Selector({
             question:   `Select Save to play:`,
             options:    params,
@@ -33,10 +25,10 @@ module.exports = {
                 x: 0,
                 y: 0
             }
-        }, HndlPlayMainMenu);
+        }, HndlPlayMainMenu, userdata);
     }
 };
 
 module.exports.info = {
-    name: "playmainmenu"
+    name: "playstart"
 }
