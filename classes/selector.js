@@ -1,4 +1,4 @@
-const rdl = require("readline");
+const rdl = require('node:readline');
 const { replaceClr, exit, longest } = require('../utils.js');
 const stdout = process.stdout;
 const stdin = process.stdin;

@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('node:fs');
 const stdout = process.stdout;
 const { Item } = require('./classes/item');
 const { clrs, game_configs } = require('./globals');

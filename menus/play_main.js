@@ -7,8 +7,9 @@ const HndlPlayMainMenu = async (userdata, data) => {
         gMenus.get('mainmenu')().show();
         return;
     }
-    gMenus.get('playstart')(userdata).show();
-    console.log(data);    
+    const savelist = parseFile(`./${game_configs['saves']}`);
+    console.clear();
+    gMenus.get('playstart')(savelist[data]).show();
 }
 module.exports = {   
     menu(userdata, args){
