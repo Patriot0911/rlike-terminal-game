@@ -8,7 +8,8 @@ const lvlxp = (lvl) => lvl*5+10;
 
 const game_configs = {
     'saves': 'configs/saves.json',
-    'gameconf': 'configs/game_conf.json'
+    'gameconf': 'configs/game_conf.json',
+    'descript': 'configs/skills_descript.json'
 };
 
 const clrs = {

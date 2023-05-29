@@ -2,19 +2,19 @@ const { printUserdata, saveSave } = require('../utils');
 const { Selector } = require('../classes/selector');
 const { gMenus, Skillmap, Skills_list } = require('../globals');
 
-const HndlPlayStartMenu = async (userdata, data) => {
+const HndlMainInspectMenu = async (userdata, data) => {
     if(data == 'Back') {
         gMenus.get('playstart')(userdata).show();
         return;
     }
     console.clear();
-    gMenus.get(`skill_inspect`)(userdata).show();
+    gMenus.get(`skill_inspect`)(userdata, data).show();
 }
 module.exports = {
     menu(userdata, args){
         printUserdata(userdata, {x: 40, y: 1});
         const params = [ ];
-        const options = [ ]; // str by 10
+        const options = [ ];
         const buffer = [];
         buffer[0] = [], buffer[1] = [];
         const kes = Object.keys(userdata.skills);
@@ -43,7 +43,7 @@ module.exports = {
                 x: 0,
                 y: 0
             }
-        }, HndlPlayStartMenu, userdata);
+        }, HndlMainInspectMenu, userdata);
     }
 };
 
