@@ -1,5 +1,5 @@
 const rdl = require('node:readline');
-const { replaceClr, exit, longest } = require('../utils.js');
+const { replaceClr, deleteClrs, exit, longest } = require('../utils.js');
 const stdout = process.stdout;
 const stdin = process.stdin;
 
@@ -58,8 +58,8 @@ class Selector {
                 for(let k = 0; k < leng[1]; k++){
                     rdl.cursorTo(stdout, this.begin.x+(k === 0 ? 0 : k*leng[0]+1+k*2), this.begin.y+i+2)
                     const str = item[k] ? item[k] : ' ';
-                    stdout.write((k === 0 ? '║' : ' ') + 
-                        (i === 0 && k === 0 ? replaceClr(`{green}${str.padEnd(leng[0])}{/green}`) : str.padEnd(leng[0])) + 
+                    stdout.write((k === 0 ? '║' : ' ') +
+                        (i === 0 && k === 0 ? replaceClr(`{green}${deleteClrs(str).padEnd(leng[0])}{/green}`) : replaceClr(str).padEnd(leng[0])) + 
                         (k === leng[1]-1 ?  '║\n' : '│'));
                 }
             }
@@ -89,7 +89,7 @@ class Selector {
             x = this.cursor.x;
         const leng = longest(this.options);
         rdl.cursorTo(stdout, this.begin.x+(x === 0 ? 1 : x*leng[0]+1+x*2), this.begin.y+y+2)
-        stdout.write((x === 0 ? '' : ' ') + this.options[y][x])
+        stdout.write((x === 0 ? '' : ' ') + replaceClr(this.options[y][x]))
         switch(direction){
             case '\u001b[A':
                 if (this.cursor.y === 0) {
@@ -129,7 +129,7 @@ class Selector {
         y = this.cursor.y;
         x = this.cursor.x;
         rdl.cursorTo(stdout, this.begin.x+(x === 0 ? 1 : x*leng[0]+1+x*2), this.begin.y+y+2)
-        stdout.write(replaceClr((x === 0 ? '' : ' ') + `{green}${this.options[y][x]}{/green}`))
+        stdout.write(replaceClr((x === 0 ? '' : ' ') + `{green}${deleteClrs(this.options[y][x])}{/green}`))
     }
 
     enter() {

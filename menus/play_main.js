@@ -1,4 +1,4 @@
-const { parseFile, clrlog } = require('../utils');
+const { parseFile } = require('../utils');
 const { Selector } = require('../classes/selector');
 const { gMenus, game_configs } = require('../globals');
 
@@ -9,7 +9,8 @@ const HndlPlayMainMenu = async (userdata, data) => {
     }
     const savelist = parseFile(`./${game_configs['saves']}`);
     console.clear();
-    savelist[data].keyname = data;
+    savelist[data].temp = {};
+    savelist[data].temp.keyname = data;
     gMenus.get('playstart')(savelist[data]).show();
 }
 module.exports = {   

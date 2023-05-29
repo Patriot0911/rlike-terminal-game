@@ -16,6 +16,17 @@ const replaceClr = (str, index = 0) => {
     return str.indexOf('{', index) !== -1 ? replaceClr(str, index) : str;
 };
 
+const deleteClrs = (str, index = 0) => {
+    index = str.indexOf('{', index)+1;
+    if(index !== -1){
+        const buffer = str.slice(index, str.indexOf('}'));
+        if(clrs[buffer]){ 
+            str = str.replace(`{${buffer}}`, '').replace(`{/${buffer}}`, '');
+        }
+    }
+    return str.indexOf('{', index) !== -1 ? replaceClr(str, index) : str;
+};
+
 const clrlog = (str) => {
     console.log(replaceClr(str));
 }
@@ -42,8 +53,8 @@ const longest = (arr) => {
             arrlen = i.length;
         }
         for(const l of i){
-            if(l.length > len){
-                len = l.length;
+            if(deleteClrs(l).length > len){
+                len = deleteClrs(l).length;
             }
         }
     }
@@ -61,7 +72,7 @@ const parseFile = (path) =>{
 const saveSave = (userdata) => {
     const saveFile = parseFile(`./${game_configs['saves']}`);
     saveFile[userdata.keyname] = userdata;
-    delete saveFile[userdata.keyname].keyname;
+    delete saveFile[userdata.temp.keyname].temp;
     fs.writeFileSync(`./${game_configs['saves']}`, JSON.stringify(saveFile), {
       encoding: "utf8",
       flag: "w",
@@ -104,7 +115,7 @@ const printUserdata = (userdata, coords = { x: 0, y: 0 }) => {
 }
 
 module.exports = {
-    replaceClr, clrlog,
+    replaceClr, deleteClrs, clrlog,
     hideCursor, showCursor,
     exit, sleep,
     longest,
