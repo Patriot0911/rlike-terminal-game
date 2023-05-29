@@ -1,6 +1,6 @@
-const { parseFile, clrlog } = require('../utils');
+const { clrlog, printUserdata } = require('../utils');
 const { Selector } = require('../classes/selector');
-const { gMenus, game_configs } = require('../globals');
+const { gMenus } = require('../globals');
 
 const HndlPlayMainMenu = async (userdata, data) => {
     if(data == 'Back') {
@@ -8,17 +8,21 @@ const HndlPlayMainMenu = async (userdata, data) => {
         return;
     }
     console.clear();
-    gMenus.get('playstart')().show();
+    gMenus.get('playstart')(userdata).show();
 }
 module.exports = {   
     menu(userdata, args){
-        console.log(userdata);
+        if(userdata.name === 'None'){
+            return gMenus.get('game_beginning')(userdata);
+        }
+        printUserdata(userdata, {x: 40, y: 0});
         const params = [
-            ["test"],
-            ["test2"]
+            ["Adventure"],
+            ["Skill inspection"],
+            ["Back"]
         ];
         return new Selector({
-            question:   `Select Save to play:`,
+            question:   "Welcome!",
             options:    params,
             params:     params,
             begin: {

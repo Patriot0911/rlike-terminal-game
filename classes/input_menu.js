@@ -19,6 +19,7 @@ class QuestionLine {
     show() {
         rdl.cursorTo(stdout, this.begin.x, this.begin.y);
         stdout.write(this.question + '\n');
+        this.begin.y += this.question.match((/\n/g) || []) ? this.question.match((/\n/g) || []).length : 1;
         rdl.cursorTo(stdout, this.begin.x, this.begin.y+1);
         stdin.setRawMode(true);
         stdin.setEncoding('utf-8');

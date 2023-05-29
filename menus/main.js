@@ -15,6 +15,10 @@ const HndlMainMenu = async (userdata, data) => {
         case 'Editor' :
 
         break;
+        case 'Exit' :
+            console.clear();
+            process.exit();
+        break;
     }
 }
 module.exports = {   
@@ -22,7 +26,8 @@ module.exports = {
         const params = [
             ['Play'],
             ['Saves'],
-            ['Edittor']
+            ['Edittor'],
+            ['Exit']
         ];
         return new Selector({
             question:   " ",

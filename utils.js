@@ -1,12 +1,9 @@
 const fs = require('node:fs');
+const rdl = require('node:readline');
 const stdout = process.stdout;
 const { Item } = require('./classes/item');
 const { clrs, game_configs } = require('./globals');
 
-
-const getDisplayItemName = (name) => {
-    return undefined;
-}
 
 const replaceClr = (str, index = 0) => {
     index = str.indexOf('{', index)+1;
@@ -61,6 +58,17 @@ const parseFile = (path) =>{
     return JSON.parse(saveFile);
 } 
 
+const saveSave = (userdata) => {
+    const saveFile = parseFile(`./${game_configs['saves']}`);
+    saveFile[userdata.keyname] = userdata;
+    delete saveFile[userdata.keyname].keyname;
+    fs.writeFileSync(`./${game_configs['saves']}`, JSON.stringify(saveFile), {
+      encoding: "utf8",
+      flag: "w",
+      mode: 0o666
+    });    
+}
+
 const deleteSave = (key) => {
     const saveFile = parseFile(`./${game_configs['saves']}`);
     delete saveFile[key];
@@ -71,15 +79,35 @@ const deleteSave = (key) => {
     });
 }
 
+const printUserdata = (userdata, coords = { x: 0, y: 0 }) => {
+    rdl.cursorTo(stdout, coords.x, coords.y);
+    const max = userdata.name.length+40;
+    stdout.write('╔'.padEnd(max, '═') + '╗\n');
+    rdl.cursorTo(stdout, coords.x, coords.y+1);
+    stdout.write(('║Name:' + userdata.name).padEnd(max, ' ') + '║\n');
+    rdl.cursorTo(stdout, coords.x, coords.y+2);
+    stdout.write(('║Level:' + userdata.lvl).padEnd(max, ' ') + '║\n');
+    rdl.cursorTo(stdout, coords.x, coords.y+3);
+    stdout.write('║Stats:'.padEnd(max, ' ') + '║\n');
+
+    rdl.cursorTo(stdout, coords.x, coords.y+4);
+    stdout.write('║╔'.padEnd(max-1, '═') + '╗║\n');
+    const keys = Object.keys(userdata.ups);
+    for(let i = 0; i < keys.length; i++){
+        rdl.cursorTo(stdout, coords.x, coords.y+5+i);
+        stdout.write(`║║${keys[i]}:${userdata.ups[keys[i]]}`.padEnd(max-1, ' ') + '║║\n');
+    }
+    rdl.cursorTo(stdout, coords.x, coords.y+5+keys.length);
+    stdout.write('║╚'.padEnd(max-1, '═') + '╝║\n');
+    rdl.cursorTo(stdout, coords.x, coords.y+6+keys.length);
+    stdout.write('╚'.padEnd(max, '═') + '╝\n');
+}
+
 module.exports = {
-    getDisplayItemName,
-    replaceClr,
-    clrlog,
-    hideCursor,
-    showCursor,
-    exit,
-    sleep,
+    replaceClr, clrlog,
+    hideCursor, showCursor,
+    exit, sleep,
     longest,
-    deleteSave,
-    parseFile
+    deleteSave, parseFile, saveSave,
+    printUserdata
 };

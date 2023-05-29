@@ -22,6 +22,7 @@ const HndlSavesCreateMainMenu = async (userdata, data) => {
         return;
     }
     saveFile[data] = {
+        name: 'None',
         lvl:  0,
         ups:
         {
