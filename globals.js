@@ -1,22 +1,14 @@
-const Skillmap = new Map();
 const Skills_list = [];
+const modEvents = [];
 
 const gMenus = new Map();
+const Skillmap = new Map();
+
+const lvlxp = (lvl) => lvl*5+10;
 
 const game_configs = {
-    'saves': 'configs/saves.json'
-};
-
-const iTypes = {
-    'weapon':   1,
-    'armor':    2,
-    'amulet':   3
-};
-
-const wTypes = {
-    'melee':    1,
-    'ranged':   2,
-    'spell':    3
+    'saves': 'configs/saves.json',
+    'gameconf': 'configs/game_conf.json'
 };
 
 const clrs = {
@@ -31,9 +23,9 @@ const clrs = {
 };
 
 module.exports = {
-    iTypes, wTypes,
     clrs,
-    Skillmap, Skills_list,
+    Skillmap, Skills_list, modEvents,
     game_configs,
+    lvlxp,
     gMenus
 };

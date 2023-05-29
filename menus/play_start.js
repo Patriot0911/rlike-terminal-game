@@ -2,7 +2,7 @@ const { printUserdata } = require('../utils');
 const { Selector } = require('../classes/selector');
 const { gMenus } = require('../globals');
 
-const HndlPlayMainMenu = async (userdata, data) => {
+const HndlPlayStartMenu = async (userdata, data) => {
     if(data == 'Back') {
         gMenus.get('mainmenu')().show();
         return;
@@ -15,10 +15,10 @@ module.exports = {
         if(userdata.name === 'None'){
             return gMenus.get('game_beginning')(userdata);
         }
-        printUserdata(userdata, {x: 40, y: 0});
+        printUserdata(userdata, {x: 40, y: 1});
         const params = [
             ["Adventure"],
-            ["Skill inspection"],
+            ["Skills Inspection"],
             ["Back"]
         ];
         return new Selector({
@@ -29,7 +29,7 @@ module.exports = {
                 x: 0,
                 y: 0
             }
-        }, HndlPlayMainMenu, userdata);
+        }, HndlPlayStartMenu, userdata);
     }
 };
 

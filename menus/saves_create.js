@@ -24,6 +24,7 @@ const HndlSavesCreateMainMenu = async (userdata, data) => {
     saveFile[data] = {
         name: 'None',
         lvl:  0,
+        xp:   0,
         ups:
         {
             health:   0,
@@ -32,7 +33,13 @@ const HndlSavesCreateMainMenu = async (userdata, data) => {
             intelligence: 0
         },
         skills:
-        {}
+        {
+            1:
+            {
+                skill_name: 'punch',
+                lvl: 0
+            }
+        }
     }
     fs.writeFileSync(`./${game_configs['saves']}`, JSON.stringify(saveFile), {
         encoding: "utf8",

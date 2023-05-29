@@ -45,7 +45,8 @@ class Selector {
     
     show() {
         rdl.cursorTo(stdout, this.begin.x, this.begin.y);
-        stdout.write(this.question + '\n');
+        stdout.write(this.question);
+        this.begin.y += this.question.match((/\n/g) || []) ? this.question.match((/\n/g) || []).length : 0;
         rdl.cursorTo(stdout, this.begin.x, this.begin.y+1);
         const leng = longest(this.options);
         stdout.write('╔'.padEnd(leng[1]*leng[0]+(leng[1] === 1 ? 1 : 2*leng[1]), '═') + '╗\n');
@@ -93,6 +94,7 @@ class Selector {
         switch(direction){
             case '\u001b[A':
                 if (this.cursor.y === 0) {
+                    if(!this.options[this.options.length-1][x]) break;
                     this.cursor.y = this.options.length-1;
                 } else {
                     if(!this.options[this.cursor.y-1][x]) break;
@@ -101,6 +103,7 @@ class Selector {
             break;
             case '\u001b[B':
                 if (this.cursor.y === this.options.length-1) {
+                    if(!this.options[0][x]) break;
                     this.cursor.y = 0;
                 } else {
                     if(!this.options[this.cursor.y+1][x]) break;

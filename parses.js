@@ -1,4 +1,4 @@
-const { Skillmap, Skills_list, gMenus } = require('./globals.js');
+const { Skillmap, Skills_list, modEvents, gMenus } = require('./globals.js');
 const fs = require('fs');
 
 module.exports = {
@@ -36,5 +36,23 @@ module.exports = {
             ++count_m;
         }
         return count_m;
+    },
+    events ()
+    {
+        let count_e = 0;
+        const fevents = fs.readdirSync('./events');
+        for (const file of fevents){
+            const ev = require(`./events/${file}`);
+            if(!ev.info.cat || !ev.info.name)
+                continue;
+            if(!modEvents[ev.cat]){
+                modEvents[ev.cat] = new Map();
+                modEvents[`${ev.cat}_list`] = [];
+            }
+            modEvents[ev.cat].set(ev.name, ev.action);
+            modEvents[`${ev.cat}_list`].push(ev.name);
+            ++count_e;
+        }
+        return count_e;
     }
 }
