@@ -9,14 +9,14 @@ const HndlPlayAdvMainMenu = async (userdata, data) => {
         return;
     }
     console.clear();
-    gMenus.get(deleteClrs(data.toLowerCase().replace(' ', '_')))(userdata).show();
+    gMenus.get('begin_adventure')(userdata, deleteClrs(data.toLowerCase().replaceAll(' ', '_')).split('[')[0]).show();
 }
 module.exports = {   
     menu(userdata, args){
         printUserdata(userdata, {x: 40, y: 2});
         const params = [
             ["Wander the world"],
-            [`{red}Enter the Dungeon${(userdata.lvl > Dungeon_lvl ? ` ` : `[${Dungeon_lvl} lvl]`)}{/red} `],
+            [`{red}Enter the Dungeon${(userdata.lvl > Dungeon_lvl ? ` ` : `[${Dungeon_lvl} lvl]`)}{/red}`],
             ["Back"]
         ];
         return new Selector({

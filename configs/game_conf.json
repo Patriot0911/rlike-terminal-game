@@ -1,3 +1,6 @@
 {
-    "Dungeon_lvl": 20
+    "Dungeon_lvl":          20,
+    
+    "wander_world_acts":    5,
+    "dungeon_acts":         15
 }

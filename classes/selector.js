@@ -45,7 +45,7 @@ class Selector {
     
     show() {
         rdl.cursorTo(stdout, this.begin.x, this.begin.y);
-        stdout.write(this.question);
+        stdout.write(replaceClr(this.question));
         this.begin.y += this.question.match((/\n/g) || []) ? this.question.match((/\n/g) || []).length : 0;
         rdl.cursorTo(stdout, this.begin.x, this.begin.y+1);
         const leng = longest(this.options);

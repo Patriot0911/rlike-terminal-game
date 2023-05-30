@@ -2,7 +2,7 @@ const fs = require('node:fs');
 const rdl = require('node:readline');
 const stdout = process.stdout;
 const { Item } = require('./classes/item');
-const { clrs, game_configs, lvlxp } = require('./globals');
+const { clrs, game_configs, lvlxp, maxmana, maxhealth } = require('./globals');
 
 
 const replaceClr = (str, index = 0) => {
@@ -71,13 +71,14 @@ const parseFile = (path) =>{
 
 const saveSave = (userdata) => {
     const saveFile = parseFile(`./${game_configs['saves']}`);
-    saveFile[userdata.temp.keyname] = userdata;
+    saveFile[userdata.temp.keyname] = {...userdata};
     delete saveFile[userdata.temp.keyname].temp;
     fs.writeFileSync(`./${game_configs['saves']}`, JSON.stringify(saveFile), {
       encoding: "utf8",
       flag: "w",
       mode: 0o666
-    });    
+    });
+
 }
 
 const deleteSave = (key) => {
@@ -90,29 +91,40 @@ const deleteSave = (key) => {
     });
 }
 
-const printUserdata = (userdata, coords = { x: 0, y: 0 }) => {
-    rdl.cursorTo(stdout, coords.x, coords.y);
+const printUserdata = (userdata, coords = { x: 0, y: 0 }, tempbar = 0) => {
+    let py = 0;
     const max = userdata.name.length+40;
+    if(tempbar && userdata.temp){
+        rdl.cursorTo(stdout, coords.x+max+2, coords.y);
+        stdout.write('╔'.padEnd(25, '═') + '╗\n');
+        rdl.cursorTo(stdout, coords.x+max+2, coords.y+1);
+        stdout.write(`║❤️  ${userdata.temp.health}/${maxhealth(userdata.lvl, userdata.ups.health)}`.padEnd(25, ' ') + ' ║\n');
+        rdl.cursorTo(stdout, coords.x+max+2, coords.y+2);
+        stdout.write(`║🔮 ${userdata.temp.mana}/${maxmana(userdata.lvl, userdata.ups.intelligence)}`.padEnd(25, ' ') + '║\n');
+        rdl.cursorTo(stdout, coords.x+max+2, coords.y+3);
+        stdout.write('╚'.padEnd(25, '═') + '╝\n');
+    }
+    rdl.cursorTo(stdout, coords.x, coords.y);
     stdout.write('╔'.padEnd(max, '═') + '╗\n');
-    rdl.cursorTo(stdout, coords.x, coords.y+1);
+    rdl.cursorTo(stdout, coords.x, ++coords.y);
     stdout.write(('║Name: ' + userdata.name).padEnd(max, ' ') + '║\n');
-    rdl.cursorTo(stdout, coords.x, coords.y+2);
+    rdl.cursorTo(stdout, coords.x, ++coords.y);
     stdout.write(('║Level: ' + userdata.lvl).padEnd(max, ' ') + '║\n');
-    rdl.cursorTo(stdout, coords.x, coords.y+3);
+    rdl.cursorTo(stdout, coords.x, ++coords.y);
     stdout.write(('║Xp: ' + userdata.xp + '/' + lvlxp(userdata.lvl)).padEnd(max, ' ') + '║\n');
-    rdl.cursorTo(stdout, coords.x, coords.y+4);
+    rdl.cursorTo(stdout, coords.x, ++coords.y);
     stdout.write('║Stats:'.padEnd(max, ' ') + '║\n');
-
-    rdl.cursorTo(stdout, coords.x, coords.y+5);
+    rdl.cursorTo(stdout, coords.x, ++coords.y);
     stdout.write('║╔'.padEnd(max-1, '═') + '╗║\n');
+    ++coords.y;
     const keys = Object.keys(userdata.ups);
     for(let i = 0; i < keys.length; i++){
-        rdl.cursorTo(stdout, coords.x, coords.y+6+i);
+        rdl.cursorTo(stdout, coords.x, coords.y+i);
         stdout.write(`║║${keys[i]}: ${userdata.ups[keys[i]]}`.padEnd(max-1, ' ') + '║║\n');
     }
-    rdl.cursorTo(stdout, coords.x, coords.y+6+keys.length);
+    rdl.cursorTo(stdout, coords.x, coords.y+keys.length);
     stdout.write('║╚'.padEnd(max-1, '═') + '╝║\n');
-    rdl.cursorTo(stdout, coords.x, coords.y+7+keys.length);
+    rdl.cursorTo(stdout, coords.x, ++coords.y+keys.length);
     stdout.write('╚'.padEnd(max, '═') + '╝\n');
 }
 
