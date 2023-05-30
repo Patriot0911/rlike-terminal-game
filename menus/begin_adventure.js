@@ -2,9 +2,11 @@ const { printUserdata } = require('../utils');
 const { Selector } = require('../classes/selector');
 const { gMenus, game_configs, maxmana, maxhealth } = require('../globals');
 const phrases = require(`../${game_configs["phrases"]}`)
+const conf = require(`../${game_configs["gameconf"]}`)
 
 const HndlBeginAdvMenu = async (userdata, data) => {
     console.clear();
+    userdata.temp.max_acts = conf[`${data}_acts`] ? conf[`${data}_acts`] : -1;
     userdata.temp.adv_act = 0;
     userdata.temp.startlvl = userdata.lvl;
     userdata.temp.health = maxhealth(userdata.lvl, userdata.ups.health);

@@ -45,12 +45,12 @@ module.exports = {
             const ev = require(`./events/${file}`);
             if(!ev.info.cat || !ev.info.name)
                 continue;
-            if(!modEvents[ev.cat]){
-                modEvents[ev.cat] = new Map();
-                modEvents[`${ev.cat}_list`] = [];
+            if(!modEvents[ev.info.cat]){
+                modEvents[ev.info.cat] = new Map();
+                modEvents[`${ev.info.cat}_list`] = [];
             }
-            modEvents[ev.cat].set(ev.name, ev.action);
-            modEvents[`${ev.cat}_list`].push(ev.name);
+            modEvents[ev.info.cat].set(ev.info.name, ev.action);
+            modEvents[`${ev.info.cat}_list`].push(ev.info.name);
             ++count_e;
         }
         return count_e;

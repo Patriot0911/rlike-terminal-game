@@ -4,7 +4,7 @@ const { gMenus, game_configs, modEvents } = require('../globals');
 const phrases = require(`../${game_configs["phrases"]}`)
 
 const HndlEndAdvMenu = async (userdata, data) => {
-    gMenus.get('playstart')(userdata, data).show();
+    gMenus.get('playstart')(userdata).show();
 }
 module.exports = {   
     menu(userdata, args){

@@ -23,11 +23,19 @@ const clrs = {
     blue:       '\x1b[34m',
     magenta:    '\x1b[35m',
     white:      '\x1b[37m',
-    black:      '\x1b[30m',
+    black:      '\x1b[30m'
+};
+
+const dmg_types = {
+    absolute:   -1,
+    physic:     0,
+    magic:      1,
+    poison:     2,
+    fire:       3
 };
 
 module.exports = {
-    clrs,
+    clrs, dmg_types,
     Skillmap, Skills_list, modEvents,
     game_configs,
     lvlxp, maxhealth, maxmana,

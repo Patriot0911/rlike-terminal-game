@@ -1,1 +1,1 @@
-{"Tester01":{"name":"Name01","lvl":0,"xp":0,"ups":{"health":0,"strength":0,"agility":0,"intelligence":0},"skills":{"1":{"skill_name":"fire_immune","lvl":0}}}}
+{"Tester01":{"name":"Name01","lvl":8,"xp":10,"ups":{"health":0,"strength":0,"agility":0,"intelligence":0},"skills":{"1":{"skill_name":"phys_resist","lvl":13}}}}

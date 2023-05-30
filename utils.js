@@ -1,16 +1,15 @@
 const fs = require('node:fs');
 const rdl = require('node:readline');
 const stdout = process.stdout;
-const { Item } = require('./classes/item');
-const { clrs, game_configs, lvlxp, maxmana, maxhealth } = require('./globals');
+const globals = require('./globals');
 
 
 const replaceClr = (str, index = 0) => {
     index = str.indexOf('{', index)+1;
     if(index !== -1){
         const buffer = str.slice(index, str.indexOf('}'));
-        if(clrs[buffer]){ 
-            str = str.replace(`{${buffer}}`, clrs[buffer]).replace(`{/${buffer}}`, clrs['default']);
+        if(globals.clrs[buffer]){ 
+            str = str.replace(`{${buffer}}`, globals.clrs[buffer]).replace(`{/${buffer}}`, globals.clrs['default']);
         }
     }
     return str.indexOf('{', index) !== -1 ? replaceClr(str, index) : str;
@@ -20,7 +19,7 @@ const deleteClrs = (str, index = 0) => {
     index = str.indexOf('{', index)+1;
     if(index !== -1){
         const buffer = str.slice(index, str.indexOf('}'));
-        if(clrs[buffer]){ 
+        if(globals.clrs[buffer]){ 
             str = str.replace(`{${buffer}}`, '').replace(`{/${buffer}}`, '');
         }
     }
@@ -70,10 +69,10 @@ const parseFile = (path) =>{
 } 
 
 const saveSave = (userdata) => {
-    const saveFile = parseFile(`./${game_configs['saves']}`);
+    const saveFile = parseFile(`./${globals.game_configs['saves']}`);
     saveFile[userdata.temp.keyname] = {...userdata};
     delete saveFile[userdata.temp.keyname].temp;
-    fs.writeFileSync(`./${game_configs['saves']}`, JSON.stringify(saveFile), {
+    fs.writeFileSync(`./${globals.game_configs['saves']}`, JSON.stringify(saveFile), {
       encoding: "utf8",
       flag: "w",
       mode: 0o666
@@ -82,9 +81,9 @@ const saveSave = (userdata) => {
 }
 
 const deleteSave = (key) => {
-    const saveFile = parseFile(`./${game_configs['saves']}`);
+    const saveFile = parseFile(`./${globals.game_configs['saves']}`);
     delete saveFile[key];
-    fs.writeFileSync(`./${game_configs['saves']}`, JSON.stringify(saveFile), {
+    fs.writeFileSync(`./${globals.game_configs['saves']}`, JSON.stringify(saveFile), {
       encoding: "utf8",
       flag: "w",
       mode: 0o666
@@ -98,9 +97,9 @@ const printUserdata = (userdata, coords = { x: 0, y: 0 }, tempbar = 0) => {
         rdl.cursorTo(stdout, coords.x+max+2, coords.y);
         stdout.write('╔'.padEnd(25, '═') + '╗\n');
         rdl.cursorTo(stdout, coords.x+max+2, coords.y+1);
-        stdout.write(`║❤️  ${userdata.temp.health}/${maxhealth(userdata.lvl, userdata.ups.health)}`.padEnd(25, ' ') + ' ║\n');
+        stdout.write(`║❤️  ${userdata.temp.health}/${globals.maxhealth(userdata.lvl, userdata.ups.health)}`.padEnd(25, ' ') + ' ║\n');
         rdl.cursorTo(stdout, coords.x+max+2, coords.y+2);
-        stdout.write(`║🔮 ${userdata.temp.mana}/${maxmana(userdata.lvl, userdata.ups.intelligence)}`.padEnd(25, ' ') + '║\n');
+        stdout.write(`║🔮 ${userdata.temp.mana}/${globals.maxmana(userdata.lvl, userdata.ups.intelligence)}`.padEnd(25, ' ') + '║\n');
         rdl.cursorTo(stdout, coords.x+max+2, coords.y+3);
         stdout.write('╚'.padEnd(25, '═') + '╝\n');
     }
@@ -111,7 +110,7 @@ const printUserdata = (userdata, coords = { x: 0, y: 0 }, tempbar = 0) => {
     rdl.cursorTo(stdout, coords.x, ++coords.y);
     stdout.write(('║Level: ' + userdata.lvl).padEnd(max, ' ') + '║\n');
     rdl.cursorTo(stdout, coords.x, ++coords.y);
-    stdout.write(('║Xp: ' + userdata.xp + '/' + lvlxp(userdata.lvl)).padEnd(max, ' ') + '║\n');
+    stdout.write(('║Xp: ' + userdata.xp + '/' + globals.lvlxp(userdata.lvl)).padEnd(max, ' ') + '║\n');
     rdl.cursorTo(stdout, coords.x, ++coords.y);
     stdout.write('║Stats:'.padEnd(max, ' ') + '║\n');
     rdl.cursorTo(stdout, coords.x, ++coords.y);
@@ -128,11 +127,50 @@ const printUserdata = (userdata, coords = { x: 0, y: 0 }, tempbar = 0) => {
     stdout.write('╚'.padEnd(max, '═') + '╝\n');
 }
 
+const takeDamage = async (userdata, type = globals.dmg_types.absolute, count) => {
+    let dmg = count,
+        buffer;
+    const kes = Object.keys(userdata.skills);
+    for(let i = 0; i < kes.length; i++){
+        if(!globals.Skills_list.includes(userdata.skills[kes[i]].skill_name)){
+            delete userdata.skills[kes[i]];
+            continue;
+        }
+        buffer = globals.Skillmap.get(userdata.skills[kes[i]].skill_name);
+        if(buffer.event === 'damage_taken'){
+            dmg = await buffer.callback(userdata, userdata.skills[kes[i]].lvl, type, dmg);
+        }
+    }
+    dmg = Math.round(dmg * 10) / 10;
+    if(dmg < 0){
+        if(userdata.temp.health+Math.abs(dmg) < globals.maxhealth(userdata.lvl, userdata.temp.health)){
+            userdata.temp.health+=Math.abs(dmg);
+        }else{
+            userdata.temp.health = globals.maxhealth(userdata.lvl, userdata.temp.health);
+        }
+    }else{
+        userdata.temp.health -= dmg;
+    }
+    return dmg;
+}
+
+const addXp = (userdata, count) => {
+    userdata.xp += count;
+    const curlvl = userdata.lvl;
+    while(globals.lvlxp(userdata.lvl) <= userdata.xp){
+        userdata.xp-=globals.lvlxp(userdata.lvl);
+        ++userdata.lvl;
+    }
+    if(curlvl !== userdata.lvl){
+        clrlog(`{green}[LvlUp] ${curlvl} ➢  ${userdata.lvl}{/green}`);
+    }
+}
+
 module.exports = {
     replaceClr, deleteClrs, clrlog,
     hideCursor, showCursor,
     exit, sleep,
     longest,
     deleteSave, parseFile, saveSave,
-    printUserdata
+    printUserdata, takeDamage, addXp
 };
