@@ -147,11 +147,11 @@ const takeDamage = async (userdata, type = globals.dmg_types.absolute, count) =>
         buffer;
     const kes = Object.keys(userdata.skills);
     for(let i = 0; i < kes.length; i++){
-        if(!globals.Skills_list.includes(userdata.skills[kes[i]].skill_name)){
+        if(!globals.Skills_list.includes(kes[i])){
             delete userdata.skills[kes[i]];
             continue;
         }
-        buffer = globals.Skillmap.get(userdata.skills[kes[i]].skill_name);
+        buffer = globals.Skillmap.get(kes[i]);
         if(buffer.event === 'damage_taken'){
             dmg = await buffer.callback(userdata, userdata.skills[kes[i]].lvl, type, dmg);
         }
@@ -167,6 +167,37 @@ const takeDamage = async (userdata, type = globals.dmg_types.absolute, count) =>
         userdata.temp.health -= dmg;
     }
     userdata.temp.health =  Math.round(userdata.temp.health*10)/10;
+    return dmg;
+}
+
+const dealDamage = async (userdata, type = dmg_types.physic, count) => {
+    let dmg = count,
+        buffer;
+    const kes = Object.keys(userdata.temp.enemy.skills);
+    for(let i = 0; i < kes.length; i++){
+        if(!globals.enemiesSkills['skills_list'].includes(kes[i])){
+            delete userdata.temp.enemy.skills[kes[i]];
+            continue;
+        }
+        buffer = globals.enemiesSkills['skills'].get(kes[i]);
+        if(buffer.event === 'damage_taken'){
+            dmg = await buffer.callback(userdata, userdata.temp.enemy.skills[kes[i]].lvl, type, dmg);
+        }
+    }
+    if(userdata.temp.enemy.resist !== 'none' && userdata.temp.enemy.resist.type === type){
+        dmg *= (userdata.temp.enemy.resist.proc/100);
+    }
+    dmg = Math.round(dmg * 10) / 10;
+    if(dmg < 0){
+        if(userdata.temp.enemy.health+Math.abs(dmg) >= userdata.temp.enemy.maxhealth){
+            userdata.temp.enemy.health = userdata.temp.enemy.maxhealth;
+        }else{
+            userdata.temp.enemy.health += Math.abs(dmg);
+        }
+    }else{
+        userdata.temp.enemy.health -= dmg;
+    }
+    userdata.temp.enemy.health =  Math.round(userdata.temp.enemy.health*10)/10;
     return dmg;
 }
 
@@ -202,5 +233,5 @@ module.exports = {
     exit, sleep,
     longest, parseExpres, randomInt,
     deleteSave, parseFile, saveSave,
-    printUserdata, takeDamage, addXp
+    printUserdata, takeDamage, dealDamage, addXp
 };

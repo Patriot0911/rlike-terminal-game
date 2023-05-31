@@ -5,7 +5,7 @@ const { gMenus } = require("./globals.js");
 
 (async () => {
     hideCursor();
-    if(!parse.skills() || !parse.menus() || !parse.events())
+    if(!parse.skills() || !parse.menus() || !parse.events() || !parse.eskills())
         exit();
     console.clear();
     gMenus.get('mainmenu')().show();

@@ -1,11 +1,83 @@
-const { takeDamage, printUserdata } = require('./utils');
+const { takeDamage, printUserdata, clrlog, randomInt, sleep } = require('./utils');
+const { Skills_list, Skillmap, enemiesSkills } = require('./globals');
+const { Selector } = require('./classes/selector');
 
-const FightMain = (pack, userdata) => {
-    printUserdata(userdata, {x: 40, y: 2}, 1, 1);
-    if(userdata.health <= 0){
-        pack.gotoFunc(pack.arg);
+const HndlFightMain = async (userdata, data, pack) => {
+    if(data === 'Run'){
+        if(Math.round(Math.random()*100) > 50){
+            clrlog("Ви успішно змогли втекти від ворога!");
+            clrlog("Отримано {green}5{/green} досвіду");
+            addXp(userdata, 5);
+        }else{
+            clrlog("Ваша втеча не була настільки успішною, як вам би хотілося");
+            let dmg = randomInt(userdata.temp.enemy.dmg.min, userdata.temp.enemy.dmg.max);
+            dmg = await takeDamage(userdata, userdata.temp.enemy.dmgtype, dmg);
+            clrlog(`Отримано {red}${dmg}{/red} шкоди`);
+        }
+        delete userdata.temp.enemy;
+        await sleep(3000);
+        pack.gotoFunc(userdata, pack.arg);
+        return;
     }
-    
+    Skillmap.get(data).callback(userdata, userdata.temp.enemy, userdata.skills[data].lvl);
+    await sleep(3000);
+    if(userdata.temp.enemy.health > 0){
+        const activs = {...userdata.temp.enemy.skills};
+        const startkeys = Object.keys(userdata.temp.enemy.skills);
+        for(let i = 0; i < startkeys.length; i++){
+            if(enemiesSkills['skills'].get(startkeys[i]).event !== 'active'){
+                delete activs[startkeys[i]];
+            }
+        }
+        const keys = Object.keys(activs);
+        if(keys.length !== 0){
+            const skill = keys[Math.floor(Math.random()*keys.length)];
+            enemiesSkills['skills'].get(skill).callback(userdata, userdata.temp.enemy, userdata.temp.enemy.skills[skill].lvl);
+            clrlog('{red}Хід Суперника{/red}');
+            await sleep(3000);
+        }
+    }
+    console.clear();
+    FightMain(userdata, pack);
+}
+
+const FightMain = (userdata, pack) => {
+    printUserdata(userdata, {x: 40, y: 1}, 1, 1);
+    if(userdata.health <= 0){
+        pack.gotoFunc(userdata, pack.arg);
+    }
+    const params = [];
+    const options = [];
+    const buffer = [[], []];
+    const kes = Object.keys(userdata.skills);
+    for(let i = 0; i < kes.length; i++){
+        if(!Skills_list.includes(kes[i])){
+            delete userdata.skills[kes[i]];
+            saveSave(userdata);
+            continue;
+        }
+        if(Skillmap.get(kes[i]).type !== 'active') continue;
+        buffer[0].push(kes[i]);
+        buffer[1].push(Skillmap.get(kes[i]).displayName.slice(0, 10) + ' ');
+        console.log(Skillmap.get(kes[i]));
+        if((i !== 0 && (i+1)%3 === 0) || i == kes.length-1){
+            params.push(buffer[0]);
+            options.push(buffer[1]);
+            buffer[1] = [];
+            buffer[0] = [];
+        }
+    }
+    options.push(['Втеча']);
+    params.push(['Run']);    
+    return new Selector({
+        question:   'Оберіть дію:',
+        options:    options,
+        params:     params,
+        begin: {
+            x: 0,
+            y: 0
+        }
+    }, HndlFightMain, userdata, '$data', pack).show();
 }
 
 module.exports = {

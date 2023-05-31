@@ -19,7 +19,6 @@ const HndlSmallBattle = async (userdata, data) => {
         }
         delete userdata.temp.enemy;
         await sleep(3000);
-        console.log(answer[0]);
         gMenus.get('random_adv')(userdata, answer[0]).show();
         return;
     }
@@ -27,7 +26,7 @@ const HndlSmallBattle = async (userdata, data) => {
         gotoFunc: gMenus.get('random_adv'),
         arg: answer[0],
     }
-    FightMain(pack, userdata);
+    FightMain(userdata, pack);
 }
 
 module.exports = {

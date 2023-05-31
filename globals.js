@@ -1,5 +1,6 @@
 const Skills_list = [];
 const modEvents = [];
+const enemiesSkills = [];
 
 const gMenus = new Map();
 const Skillmap = new Map();
@@ -37,7 +38,7 @@ const dmg_types = {
 
 module.exports = {
     clrs, dmg_types,
-    Skillmap, Skills_list, modEvents,
+    Skillmap, Skills_list, modEvents, enemiesSkills,
     game_configs,
     lvlxp, maxhealth, maxmana,
     gMenus

@@ -13,19 +13,18 @@ const HndlMainInspectMenu = async (userdata, data) => {
 module.exports = {
     menu(userdata, args){
         printUserdata(userdata, {x: 40, y: 1});
-        const params = [ ];
-        const options = [ ];
-        const buffer = [];
-        buffer[0] = [], buffer[1] = [];
+        const params = [];
+        const options = [];
+        const buffer = [[], []];
         const kes = Object.keys(userdata.skills);
         for(let i = 0; i < kes.length; i++){
-            if(!Skills_list.includes(userdata.skills[kes[i]].skill_name)){
+            if(!Skills_list.includes(kes[i])){
                 delete userdata.skills[kes[i]];
                 saveSave(userdata);
                 continue;
             }
-            buffer[0].push(userdata.skills[kes[i]].skill_name);
-            buffer[1].push(Skillmap.get(userdata.skills[kes[i]].skill_name).displayName.slice(0, 10) + ' ');
+            buffer[0].push(kes[i]);
+            buffer[1].push(Skillmap.get(kes[i]).displayName.slice(0, 10) + ' ');
             if((i !== 0 && (i+1)%3 === 0) || i == kes.length-1){
                 params.push(buffer[0]);
                 options.push(buffer[1]);

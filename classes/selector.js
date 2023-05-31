@@ -5,13 +5,14 @@ const stdin = process.stdin;
 
 
 class Selector {
-    constructor(args, nextFunc, userdata = undefined, params = '$data')
+    constructor(args, nextFunc, userdata = undefined, params = '$data', pack = undefined)
     {
         this.question       = args.question;
         this.options        = args.options;
         this.params         = args.params;
         this.gotoFunc       = nextFunc;
         this.callbackArgs   = params;
+        this.pack           = pack;
         this.user           = userdata;
         this.cursor = {
             y: 0,
@@ -142,7 +143,7 @@ class Selector {
         rdl.cursorTo(stdout, 0, 0);
         const answ_data = this.params[this.cursor.y].length > 0 ? this.params[this.cursor.y][this.cursor.x] : this.params[this.cursor.y];
         const args = this.callbackArgs.replace('$data', answ_data);
-        this.gotoFunc(this.user, args);
+        this.gotoFunc(this.user, args, this.pack);
     }
 }
 

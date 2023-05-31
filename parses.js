@@ -1,4 +1,4 @@
-const { Skillmap, Skills_list, modEvents, gMenus } = require('./globals.js');
+const { Skillmap, Skills_list, modEvents, enemiesSkills, gMenus } = require('./globals.js');
 const fs = require('fs');
 
 module.exports = {
@@ -54,5 +54,23 @@ module.exports = {
             ++count_e;
         }
         return count_e;
+    },
+    eskills ()
+    {
+        let count_es = 0;
+        const fenskills = fs.readdirSync('./enskills');
+        for (const file of fenskills){
+            const skill = require(`./enskills/${file}`);
+            if(!skill.info.name)
+                continue;
+            if(!enemiesSkills['skills']){
+                enemiesSkills['skills'] = new Map();
+                enemiesSkills['skills_list'] = []; 
+            }
+            enemiesSkills['skills'].set(skill.info.name, {callback: skill.callback, event: skill.info.event});
+            enemiesSkills['skills_list'].push(skill.info.name);
+            ++count_es;
+        }
+        return count_es;
     }
 }

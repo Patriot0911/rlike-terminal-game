@@ -33,9 +33,8 @@ const HndlSavesCreateMainMenu = async (userdata, data) => {
         },
         skills:
         {
-            1:
+            'punch':
             {
-                skill_name: 'punch',
                 lvl: 0
             }
         }

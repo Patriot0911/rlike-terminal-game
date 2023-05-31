@@ -74,8 +74,8 @@
             "dmgtype":  1,
             "resist":   "none",
             "skills": {
-                "hit": {
-                    "DisplayName": "Hit",
+                "reflect": {
+                    "DisplayName": "Контратака",
                     "lvl":  2
                 },
                 "dash": {
