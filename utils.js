@@ -90,18 +90,33 @@ const deleteSave = (key) => {
     });
 }
 
-const printUserdata = (userdata, coords = { x: 0, y: 0 }, tempbar = 0) => {
-    let py = 0;
+const printUserdata = (userdata, coords = { x: 0, y: 0 }, tempbar = 0, enemybar = 0) => {
     const max = userdata.name.length+40;
     if(tempbar && userdata.temp){
-        rdl.cursorTo(stdout, coords.x+max+2, coords.y);
+        let scoords = {...coords};
+        scoords.x += max+2;
+        rdl.cursorTo(stdout, scoords.x, scoords.y);
         stdout.write('╔'.padEnd(25, '═') + '╗\n');
-        rdl.cursorTo(stdout, coords.x+max+2, coords.y+1);
+        rdl.cursorTo(stdout, scoords.x, ++scoords.y);
         stdout.write(`║❤️  ${userdata.temp.health}/${globals.maxhealth(userdata.lvl, userdata.ups.health)}`.padEnd(25, ' ') + ' ║\n');
-        rdl.cursorTo(stdout, coords.x+max+2, coords.y+2);
+        rdl.cursorTo(stdout, scoords.x, ++scoords.y);
         stdout.write(`║🔮 ${userdata.temp.mana}/${globals.maxmana(userdata.lvl, userdata.ups.intelligence)}`.padEnd(25, ' ') + '║\n');
-        rdl.cursorTo(stdout, coords.x+max+2, coords.y+3);
+        rdl.cursorTo(stdout, scoords.x, ++scoords.y);
         stdout.write('╚'.padEnd(25, '═') + '╝\n');
+        if(enemybar && userdata.temp.enemy){
+            scoords = {...coords};
+            scoords.x += max +30;
+            rdl.cursorTo(stdout, scoords.x, scoords.y);
+            stdout.write('╔'.padEnd(25, '═') + '╗\n');
+            rdl.cursorTo(stdout, scoords.x, ++scoords.y);
+            stdout.write(` ║Name: ${userdata.temp.enemy.name}`.padEnd(25, ' ') + ' ║\n');
+            rdl.cursorTo(stdout, scoords.x, ++scoords.y);
+            stdout.write(`║❤️  ${userdata.temp.enemy.health}/${userdata.temp.enemy.maxhealth}`.padEnd(25, ' ') + ' ║\n');
+            rdl.cursorTo(stdout, scoords.x, ++scoords.y);
+            stdout.write(`║⚔️  ${userdata.temp.enemy.dmg.min}~${userdata.temp.enemy.dmg.max}`.padEnd(25, ' ') + ' ║\n');
+            rdl.cursorTo(stdout, scoords.x, ++scoords.y);
+            stdout.write('╚'.padEnd(25, '═') + '╝\n');
+        }
     }
     rdl.cursorTo(stdout, coords.x, coords.y);
     stdout.write('╔'.padEnd(max, '═') + '╗\n');
@@ -151,26 +166,41 @@ const takeDamage = async (userdata, type = globals.dmg_types.absolute, count) =>
     }else{
         userdata.temp.health -= dmg;
     }
+    userdata.temp.health =  Math.round(userdata.temp.health*10)/10;
     return dmg;
 }
 
-const addXp = (userdata, count) => {
+const addXp = (userdata, count, print = 1) => {
+    if(count < 0){
+        if(userdata.xp >= count){
+            userdata += count;
+        }else{
+            userdata.xp = 0;
+        }
+        return;
+    }
     userdata.xp += count;
     const curlvl = userdata.lvl;
     while(globals.lvlxp(userdata.lvl) <= userdata.xp){
         userdata.xp-=globals.lvlxp(userdata.lvl);
         ++userdata.lvl;
     }
-    if(curlvl !== userdata.lvl){
+    if(curlvl !== userdata.lvl && print){
         clrlog(`{green}[LvlUp] ${curlvl} ➢  ${userdata.lvl}{/green}`);
     }
 }
+
+const parseExpres = (str) => {
+    return Function(`'use strict'; return (${str})`)();
+}
+
+const randomInt = (min, max) => (min+Math.floor(Math.random()*(max-min)));
 
 module.exports = {
     replaceClr, deleteClrs, clrlog,
     hideCursor, showCursor,
     exit, sleep,
-    longest,
+    longest, parseExpres, randomInt,
     deleteSave, parseFile, saveSave,
     printUserdata, takeDamage, addXp
 };

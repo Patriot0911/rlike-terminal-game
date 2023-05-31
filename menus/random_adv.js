@@ -11,8 +11,15 @@ module.exports = {
         }
         ++userdata.temp.adv_act;
         printUserdata(userdata, {x: 40, y: 2}, 1);
-        const event =  modEvents[`${args}_list`][Math.floor(Math.random()*modEvents[`${args}_list`].length)];
+        let eventid = Math.floor(Math.random()*modEvents[`${args}_list`].length);
         console.clear();
+        if(modEvents[`${args}_list`].length > 1){
+            if(userdata.temp.lastadv === eventid){
+                eventid = modEvents[`${args}_list`][eventid+1] ? eventid+1 : eventid-1;
+            }
+            userdata.temp.lastadv = eventid;
+        }
+        const event = modEvents[`${args}_list`][eventid];
         return modEvents[args].get(event)(userdata, args);
     }
 };

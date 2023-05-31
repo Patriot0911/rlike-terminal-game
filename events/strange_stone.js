@@ -8,7 +8,7 @@ const HndlStrangeStone = async (userdata, data) => {
     console.clear();
     clrlog(phrases[`${data.split(';')[1]}_${answer.split('|')[1]}_${answer.split('|')[0]}`]);
     if(answer === '0|pick' || answer === '0|left'){
-        const dmg = await takeDamage(userdata, dmg_types.physic, 3);
+        const dmg = await takeDamage(userdata, dmg_types.physic, Math.round(Math.random()*4)+1);
         clrlog(`Ви отримали {red}[${dmg}]{/red} шкоди від укусу`);
     }else if(answer === '1|pick'){
         clrlog(`Ви отримали {green}[10]{/green} очків досвіда від рунічного слова`);

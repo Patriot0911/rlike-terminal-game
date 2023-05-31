@@ -1,1 +1,113 @@
-{}
+{
+    "wander_the_world_small":
+    {
+        "Слимак":
+        {
+            "health":   20,
+            "xp":       20,
+            "dmg": {
+                "min": 1,
+                "max":  4
+            },
+            "dmgtype":  2,
+            "resist": {
+                "type": 1,
+                "proc": 50 
+            },
+            "skills": {
+                "hit": {
+                    "DisplayName": "Удар",
+                    "lvl":  2
+                },
+                "spit": {
+                    "DisplayName": "Плювок силзі",
+                    "lvl":  4
+                }                
+            }
+        },
+        "Гоблін":
+        {
+            "health":   15,
+            "xp":       25,
+            "dmg": {
+                "min": 3,
+                "max":  7
+            },
+            "dmgtype":  1,
+            "resist":   "none",
+            "skills": {
+                "hit": {
+                    "DisplayName": "Удар",
+                    "lvl":  2
+                },
+                "dash": {
+                    "DisplayName": "Ривок з випадом",
+                    "lvl":  3
+                }
+            }
+        },
+        "Вовк":
+        {
+            "health":   10,
+            "xp":       10,
+            "dmg": {
+                "min": 1,
+                "max":  5
+            },
+            "dmgtype":  1,
+            "resist":   "none",
+            "skills": {
+                "dash": {
+                    "DisplayName": "Ривок з випадом",
+                    "lvl":  4
+                }
+            }
+        },
+        "Розбійник":
+        {
+            "health":   25,
+            "xp":       30,
+            "dmg": {
+                "min": 2,
+                "max":  8
+            },
+            "dmgtype":  1,
+            "resist":   "none",
+            "skills": {
+                "hit": {
+                    "DisplayName": "Hit",
+                    "lvl":  2
+                },
+                "dash": {
+                    "DisplayName": "Ривок з випадом",
+                    "lvl":  2
+                },
+                "silence_dash": {
+
+                    "DisplayName": "Прихований випад",
+                    "lvl":  2
+                }
+            }
+        },
+        "Фея":
+        {
+            "health":   5,
+            "xp":       15,
+            "dmg": {
+                "min": 1,
+                "max":  4
+            },
+            "dmgtype":  2,
+            "resist": {
+                "type": -1,
+                "proc": 60 
+            },
+            "skills": {
+                "magic_hit": {
+                    "DisplayName": "Слабкий магічний удар",
+                    "lvl":  3
+                }
+            }
+        }
+    }
+}

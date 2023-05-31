@@ -1,6 +1,6 @@
 module.exports = {
-    async callback(userdata, ...params){
-
+    async callback(userdata, target, skill_lvl){
+        return target.health - Math.round(Math.floor()*skill_lvl);
     }
 };
 

@@ -1,7 +1,6 @@
 const { clrlog, sleep, deleteSave, parseFile } = require('../utils');
 const { Selector } = require('../classes/selector');
 const { gMenus, game_configs } = require('../globals');
-const fs = require('fs');
 
 const HndlSavesDeleteMenu = async (userdata, data) => {
     if(data == 'Back'){

@@ -1,7 +1,6 @@
 const { gMenus, game_configs } = require('../globals');
 const { QuestionLine } = require('../classes/input_menu'); 
 const { parseFile, clrlog, sleep } = require('../utils');
-const readline = require('readline');
 const fs = require('fs');
 
 const HndlSavesCreateMainMenu = async (userdata, data) => {

@@ -1,6 +1,7 @@
 {
-    "Dungeon_lvl":          20,
+    "Dungeon_lvl":                  20,
     
-    "wander_the_world_acts":    5,
-    "dungeon_acts":         15
+    "wander_the_world_acts":        5,
+    "wander_the_world_xp_reward":   "30+2*lvl",
+    "dungeon_acts":                 15
 }

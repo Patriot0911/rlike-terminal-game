@@ -1,4 +1,3 @@
-const { sleep, clrlog } = require('../utils');
 const { Selector } = require('../classes/selector');
 const { gMenus } = require('../globals');
 
