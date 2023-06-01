@@ -91,9 +91,7 @@ const FightMain = (userdata, pack) => {
 }
 
 const beginFight = (userdata, pack) => {
-    if(!userdata.temp.efects){
-        userdata.temp.efects = {};
-    }
+    userdata.temp.efects ??= {};
     FightMain(userdata, pack);
 };
 

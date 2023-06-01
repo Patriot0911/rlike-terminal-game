@@ -1,7 +1,7 @@
 const { Selector } = require('../classes/selector');
 const { printUserdata, sleep, clrlog, addXp, parseFile, exit, takeDamage, randomInt } = require('../utils');
 const { game_configs, gMenus } = require('../globals');
-const { FightMain } = require('../fight');
+const { beginFight } = require('../fight');
 
 const battleEnd = async (userdata, data, result, reward) => {
     console.clear();
