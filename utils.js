@@ -184,7 +184,7 @@ const dealDamage = async (userdata, type = dmg_types.physic, count) => {
             dmg = await buffer.callback(userdata, userdata.temp.enemy.skills[kes[i]].lvl, type, dmg);
         }
     }
-    if(userdata.temp.enemy.resist !== 'none' && userdata.temp.enemy.resist.type === type){
+    if(userdata.temp.enemy.resist !== 'none' && (userdata.temp.enemy.resist.type === type || userdata.temp.enemy.resist.type === -1)){
         dmg *= (userdata.temp.enemy.resist.proc/100);
     }
     dmg = Math.round(dmg * 10) / 10;

@@ -33,7 +33,8 @@ const dmg_types = {
     physic:     0,
     magic:      1,
     poison:     2,
-    fire:       3
+    fire:       3,
+    advphysic:  4
 };
 
 module.exports = {

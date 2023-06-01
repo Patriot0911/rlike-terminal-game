@@ -3,6 +3,19 @@ const { printUserdata, sleep, clrlog, addXp, parseFile, exit, takeDamage, random
 const { game_configs, gMenus } = require('../globals');
 const { FightMain } = require('../fight');
 
+const battleEnd = async (userdata, data, result, reward) => {
+    console.clear();
+    if(result){
+        clrlog("Наші вітання!\nСуперник успішно переможений!");
+        clrlog(`Отримано {green}[${reward}]{/green} досвіду`);
+        addXp(userdata, reward);
+        printUserdata(userdata, {x: 40, y: 1}, 1, 1);
+        await sleep(2000);
+    }
+    delete userdata.temp.enemy;
+    gMenus.get('random_adv')(userdata, data).show();
+};
+
 const HndlSmallBattle = async (userdata, data) => {
     console.clear();
     const answer = data.split("|");
@@ -23,10 +36,10 @@ const HndlSmallBattle = async (userdata, data) => {
         return;
     }
     const pack = {
-        gotoFunc: gMenus.get('random_adv'),
+        gotoFunc: battleEnd,
         arg: answer[0],
     }
-    FightMain(userdata, pack);
+    beginFight(userdata, pack);
 }
 
 module.exports = {

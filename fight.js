@@ -1,6 +1,10 @@
-const { takeDamage, printUserdata, clrlog, randomInt, sleep } = require('./utils');
+const { takeDamage, printUserdata, clrlog, randomInt, sleep, addXp } = require('./utils');
 const { Skills_list, Skillmap, enemiesSkills } = require('./globals');
 const { Selector } = require('./classes/selector');
+
+const clearTempFights = (userdata) => {
+    delete userdata.temp.efects;
+};
 
 const HndlFightMain = async (userdata, data, pack) => {
     if(data === 'Run'){
@@ -15,8 +19,9 @@ const HndlFightMain = async (userdata, data, pack) => {
             clrlog(`Отримано {red}${dmg}{/red} шкоди`);
         }
         delete userdata.temp.enemy;
+        clearTempFights(userdata);
         await sleep(3000);
-        pack.gotoFunc(userdata, pack.arg);
+        pack.gotoFunc(userdata, pack.arg, false, 0);
         return;
     }
     Skillmap.get(data).callback(userdata, userdata.temp.enemy, userdata.skills[data].lvl);
@@ -44,7 +49,13 @@ const HndlFightMain = async (userdata, data, pack) => {
 const FightMain = (userdata, pack) => {
     printUserdata(userdata, {x: 40, y: 1}, 1, 1);
     if(userdata.health <= 0){
-        pack.gotoFunc(userdata, pack.arg);
+        pack.gotoFunc(userdata, pack.arg, false, 0);
+        clearTempFights(userdata);
+        return;
+    }else if(userdata.temp.enemy.health <= 0){
+        pack.gotoFunc(userdata, pack.arg, true, userdata.temp.enemy.xp);
+        clearTempFights(userdata);
+        return;
     }
     const params = [];
     const options = [];
@@ -59,7 +70,6 @@ const FightMain = (userdata, pack) => {
         if(Skillmap.get(kes[i]).type !== 'active') continue;
         buffer[0].push(kes[i]);
         buffer[1].push(Skillmap.get(kes[i]).displayName.slice(0, 10) + ' ');
-        console.log(Skillmap.get(kes[i]));
         if((i !== 0 && (i+1)%3 === 0) || i == kes.length-1){
             params.push(buffer[0]);
             options.push(buffer[1]);
@@ -80,6 +90,13 @@ const FightMain = (userdata, pack) => {
     }, HndlFightMain, userdata, '$data', pack).show();
 }
 
+const beginFight = (userdata, pack) => {
+    if(!userdata.temp.efects){
+        userdata.temp.efects = {};
+    }
+    FightMain(userdata, pack);
+};
+
 module.exports = {
-    FightMain
+    beginFight
 };
