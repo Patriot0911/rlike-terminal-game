@@ -3,6 +3,13 @@ const rdl = require('node:readline');
 const stdout = process.stdout;
 const globals = require('./globals');
 
+const randomInt = (min, max) => (min+Math.floor(Math.random()*(max-min)));
+
+const countSpaces = (str) => (str.match(/\n/g) ? str.match(/\n/g).length+1 : 1);
+
+const parseExpres = (str) => {
+    return Function(`'use strict'; return (${str})`)();
+};
 
 const replaceClr = (str, index = 0) => {
     index = str.indexOf('{', index)+1;
@@ -28,19 +35,19 @@ const deleteClrs = (str, index = 0) => {
 
 const clrlog = (str) => {
     console.log(replaceClr(str));
-}
+};
 
 const hideCursor = () => {
     stdout.write("\x1B[?25l")
-}
+};
 const showCursor = () => {
     stdout.write("\x1B[?25h")
-}
+};
 
 const exit = () => {
     showCursor();
     process.exit();
-}
+};
 const sleep = (time) => new Promise(resolve => {
     setTimeout(resolve, time);
 });
@@ -58,7 +65,7 @@ const longest = (arr) => {
         }
     }
     return [len, arrlen];
-}
+};
 
 const parseFile = (path) =>{
     const saveFile = fs.readFileSync(path, { 
@@ -66,7 +73,7 @@ const parseFile = (path) =>{
         flag: 'r'
     });
     return JSON.parse(saveFile);
-} 
+} ;
 
 const saveSave = (userdata) => {
     const saveFile = parseFile(`./${globals.game_configs['saves']}`);
@@ -78,7 +85,7 @@ const saveSave = (userdata) => {
       mode: 0o666
     });
 
-}
+};
 
 const deleteSave = (key) => {
     const saveFile = parseFile(`./${globals.game_configs['saves']}`);
@@ -88,7 +95,7 @@ const deleteSave = (key) => {
       flag: "w",
       mode: 0o666
     });
-}
+};
 
 const printUserdata = (userdata, coords = { x: 0, y: 0 }, tempbar = 0, enemybar = 0) => {
     const max = userdata.name.length+40;
@@ -140,7 +147,7 @@ const printUserdata = (userdata, coords = { x: 0, y: 0 }, tempbar = 0, enemybar 
     stdout.write('║╚'.padEnd(max-1, '═') + '╝║\n');
     rdl.cursorTo(stdout, coords.x, ++coords.y+keys.length);
     stdout.write('╚'.padEnd(max, '═') + '╝\n');
-}
+};
 
 const takeDamage = async (userdata, type = globals.dmg_types.absolute, count) => {
     let dmg = count,
@@ -168,7 +175,7 @@ const takeDamage = async (userdata, type = globals.dmg_types.absolute, count) =>
     }
     userdata.temp.health =  Math.round(userdata.temp.health*10)/10;
     return dmg;
-}
+};
 
 const dealDamage = async (userdata, type = dmg_types.physic, count) => {
     let dmg = count,
@@ -199,7 +206,7 @@ const dealDamage = async (userdata, type = dmg_types.physic, count) => {
     }
     userdata.temp.enemy.health =  Math.round(userdata.temp.enemy.health*10)/10;
     return dmg;
-}
+};
 
 const addXp = (userdata, count, print = 1) => {
     if(count < 0){
@@ -216,22 +223,43 @@ const addXp = (userdata, count, print = 1) => {
         userdata.xp-=globals.lvlxp(userdata.lvl);
         ++userdata.lvl;
     }
-    if(curlvl !== userdata.lvl && print){
-        clrlog(`{green}[LvlUp] ${curlvl} ➢  ${userdata.lvl}{/green}`);
+    if(curlvl !== userdata.lvl){
+        if(print) clrlog(`{green}[LvlUp] ${curlvl} ➢  ${userdata.lvl}{/green}`);
+        userdata.temp.lvluped = true;
     }
+};
+
+const getAdvValue = (adventure, key) => {
+    const advFile = parseFile(`./${globals.game_configs['adventures']}`);
+    return (advFile[adventure] && advFile[adventure][key]) ? advFile[adventure][key] : undefined;
+};
+
+const countStatsLvl = (userdata) => {
+    let count = 0;
+    for (const [key, value] of Object.entries(userdata.ups)) {
+        count += value;
+    }
+    return count;
+};
+
+const countAbbLvl = (userdata) => {
+    let count = 0;
+    const keys = Object.keys(userdata.skills);
+    for (let i = 0; i < keys.length; i++) {
+        count += userdata.skills[keys[i]].lvl;
+    }
+    return count;
 }
 
-const parseExpres = (str) => {
-    return Function(`'use strict'; return (${str})`)();
-}
-
-const randomInt = (min, max) => (min+Math.floor(Math.random()*(max-min)));
+const lvlUpProcedure = (userdata, pack) => globals.gMenus.get('lvlupstats')(userdata, pack);
 
 module.exports = {
-    replaceClr, deleteClrs, clrlog,
+    replaceClr, deleteClrs, clrlog, countSpaces,
     hideCursor, showCursor,
     exit, sleep,
     longest, parseExpres, randomInt,
-    deleteSave, parseFile, saveSave,
-    printUserdata, takeDamage, dealDamage, addXp
+    deleteSave, parseFile, saveSave, getAdvValue,
+    addXp, countStatsLvl, countAbbLvl, lvlUpProcedure,
+    printUserdata,
+    takeDamage, dealDamage
 };

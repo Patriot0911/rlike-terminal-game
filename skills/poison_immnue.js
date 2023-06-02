@@ -14,7 +14,6 @@ module.exports = {
 module.exports.info = {
     name:           'poison_immune',
     displayName:    'Poison Immune',
-    type:           'passive',
+    event:          'damage_taken',
     required:        0,
-    expected_event: 'damage_taken'
 };

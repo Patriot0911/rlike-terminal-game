@@ -14,7 +14,6 @@ module.exports = {
 module.exports.info = {
     name:           'old_curse',
     displayName:    'Cruse of Old age',
-    type:           'passive',
+    event:          'damage_taken',
     required:        0,
-    expected_event: 'damage_taken'
 };

@@ -16,7 +16,6 @@ module.exports = {
 module.exports.info = {
     name:           'phys_resist',
     displayName:    'Physical resistance',
-    type:           'passive',
+    event:          'damage_taken',
     required:        0,
-    expected_event: 'damage_taken'
 };

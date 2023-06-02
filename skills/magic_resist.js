@@ -16,7 +16,6 @@ module.exports = {
 module.exports.info = {
     name:           'magic_resist',
     displayName:    'Magical resistance',
-    type:           'passive',
-    required:        0,
-    expected_event: 'damage_taken'
+    event:           'damage_taken',
+    required:        0
 };

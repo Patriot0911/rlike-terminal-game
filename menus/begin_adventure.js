@@ -1,12 +1,11 @@
-const { printUserdata } = require('../utils');
+const { printUserdata, getAdvValue, countSpaces } = require('../utils');
 const { Selector } = require('../classes/selector');
-const { gMenus, game_configs, maxmana, maxhealth } = require('../globals');
+const { gMenus, game_configs, maxmana, maxhealth, modEvents } = require('../globals');
 const phrases = require(`../${game_configs["phrases"]}`)
-const conf = require(`../${game_configs["gameconf"]}`)
 
 const HndlBeginAdvMenu = async (userdata, data) => {
     console.clear();
-    userdata.temp.max_acts = conf[`${data}_acts`] ? conf[`${data}_acts`] : -1;
+    userdata.temp.max_acts = getAdvValue(data, 'acts');
     userdata.temp.adv_act = 0;
     userdata.temp.startlvl = userdata.lvl;
     userdata.temp.health = maxhealth(userdata.lvl, userdata.ups.health);
@@ -15,13 +14,13 @@ const HndlBeginAdvMenu = async (userdata, data) => {
 }
 module.exports = {   
     menu(userdata, args){
-        if(!phrases[`${args}_begin`])
-        {
+        if(!modEvents[`${args}_list`]){
             return gMenus.get('adventure')(userdata, args);
         }
-        printUserdata(userdata, {x: 40, y: 2});
+        const str = phrases[`${args}_begin`] ? phrases[`${args}_begin`] : phrases['classic_begin'];
+        printUserdata(userdata, {x: 40, y: countSpaces(str)});
         return new Selector({
-            question:   phrases[`${args}_begin`],
+            question:   str,
             options:    [['Next']],
             params:     [[' ']],
             begin: {

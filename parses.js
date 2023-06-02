@@ -11,11 +11,9 @@ module.exports = {
             if(!skill.info || !skill.callback)
                 continue;
             Skillmap.set(skill.info.name, {
-                name:           skill.info.name,
-                displayName:    skill.info.displayName,
                 lvl:            skill.info.required,
-                type:           skill.info.type,
-                event:          skill.info.expected_event,
+                displayName:    skill.info.displayName,
+                event:          skill.info.event,
                 callback:       skill.callback
             });
             Skills_list.push(skill.info.name);

@@ -1,5 +1,5 @@
 const { Selector } = require('../classes/selector');
-const { printUserdata, sleep, clrlog, addXp } = require('../utils');
+const { printUserdata, sleep, clrlog, addXp, countSpaces } = require('../utils');
 const { game_configs, gMenus } = require('../globals');
 const phrases = require(`../${game_configs["phrases"]}`)
 
@@ -8,7 +8,7 @@ const HndlRabbitLeftEnd = async (userdata, data) => {
     const xp = 15;
     if(userdata.relationship && userdata.relationship.rabbit){
         clrlog("Схоже, що ви вже колись зустрічали цього кролика.\nНавіть згадали його ім'я. Його звати {magenta}Саймон{/magenta}.\nЩо-ж, тоді привітаєтесь з ним іншим разом, а поки потрібно продовжувати свою подорож.");
-        clrlog(`Отримано {green}${xp}{/green} досвіду, за зустріч зі старим знайомим`)
+        clrlog(`Отримано {green}[${xp}]{/green} досвіду, за зустріч зі старим знайомим`)
         addXp(userdata, xp);
     }else{
         clrlog("Розмови з дурними кролями ні до чого не призведуть, тож краще їх уникати...");
@@ -23,7 +23,7 @@ const HndlRabbitEnd = async (userdata, data) => {
     console.clear();
     const xp = 30
     clrlog("Інформативні розмови з істотами цього світу ніколи не перестають вас дивувати, але чому б і ні?");
-    clrlog(`Отримано {green}${xp}{/green} досвіду, за інформативну зустріч`);
+    clrlog(`Отримано {green}[${xp}]{/green} досвіду, за інформативну зустріч`);
     addXp(userdata, xp);
     await sleep(6000);
     gMenus.get('random_adv')(userdata, data).show();
@@ -38,7 +38,7 @@ const rabbit_3 = (userdata, data) => {
         userdata.relationship = {};
         userdata.relationship.rabbit = 1;
     }
-    printUserdata(userdata, {x: 40, y: 2+(str.match((/\n/g) || []) ? str.match((/\n/g) || []).length : 0)}, 1);
+    printUserdata(userdata, {x: 40, y: countSpaces(str)}, 1);
     return new Selector({
         question:   str,
         options:    [['Next']],
@@ -57,7 +57,7 @@ const rabbit_2 = (userdata, data) => {
         return HndlRabbitLeftEnd(userdata, answer[0]);
     }
     const str = phrases['rabbit_knowledge_2'];
-    printUserdata(userdata, {x: 40, y: 2+(str.match((/\n/g) || []) ? str.match((/\n/g) || []).length : 0)}, 1);
+    printUserdata(userdata, {x: 40, y: countSpaces(str)}, 1);
     return new Selector({
         question:   str,
         options:    [['Next']],
@@ -72,7 +72,7 @@ const rabbit_2 = (userdata, data) => {
 module.exports = {
     action(userdata, args){
         const str = phrases['rabbit_knowledge_1'];
-        printUserdata(userdata, {x: 40, y: 2+(str.match((/\n/g) || []) ? str.match((/\n/g) || []).length : 0)}, 1);
+        printUserdata(userdata, {x: 40, y: countSpaces(str)}, 1);
         return new Selector({
             question:   str,
             options:    [['Почати бесіду'], ['Пройти повз']],

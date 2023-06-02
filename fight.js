@@ -1,4 +1,4 @@
-const { takeDamage, printUserdata, clrlog, randomInt, sleep, addXp } = require('./utils');
+const { takeDamage, printUserdata, clrlog, randomInt, sleep, addXp, lvlUpProcedure } = require('./utils');
 const { Skills_list, Skillmap, enemiesSkills } = require('./globals');
 const { Selector } = require('./classes/selector');
 
@@ -10,7 +10,7 @@ const HndlFightMain = async (userdata, data, pack) => {
     if(data === 'Run'){
         if(Math.round(Math.random()*100) > 50){
             clrlog("Ви успішно змогли втекти від ворога!");
-            clrlog("Отримано {green}5{/green} досвіду");
+            clrlog("Отримано {green}[5]{/green} досвіду");
             addXp(userdata, 5);
         }else{
             clrlog("Ваша втеча не була настільки успішною, як вам би хотілося");
@@ -57,26 +57,28 @@ const FightMain = (userdata, pack) => {
         clearTempFights(userdata);
         return;
     }
+    if(userdata.temp.lvluped){
+        lvlUpProcedure(userdata, [FightMain, pack]).show();
+        return;
+    }
     const params = [];
     const options = [];
-    const buffer = [[], []];
     const kes = Object.keys(userdata.skills);
+    
     for(let i = 0; i < kes.length; i++){
         if(!Skills_list.includes(kes[i])){
             delete userdata.skills[kes[i]];
             saveSave(userdata);
             continue;
         }
-        if(Skillmap.get(kes[i]).type !== 'active') continue;
-        buffer[0].push(kes[i]);
-        buffer[1].push(Skillmap.get(kes[i]).displayName.slice(0, 10) + ' ');
-        if((i !== 0 && (i+1)%3 === 0) || i == kes.length-1){
-            params.push(buffer[0]);
-            options.push(buffer[1]);
-            buffer[1] = [];
-            buffer[0] = [];
-        }
-    }
+        if(Skillmap.get(kes[i]).event !== 'active') continue;
+        const skillname = userdata.skills[kes[i]].displayName;
+        params[Math.floor(i/3)] ??= [];
+        options[Math.floor(i/3)] ??= [];
+
+        params[Math.floor(i/3)].push(kes[i]);
+        options[Math.floor(i/3)].push(skillname.length < 10 ? skillname : skillname.slice(0, 8) + '.. ');
+    }    
     options.push(['Втеча']);
     params.push(['Run']);    
     return new Selector({

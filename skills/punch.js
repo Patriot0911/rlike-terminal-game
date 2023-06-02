@@ -4,14 +4,13 @@ const { dmg_types } = require('../globals');
 module.exports = {
     async callback(userdata, target, skill_lvl=1){
         const dmg = await dealDamage(userdata, dmg_types.physic, userdata.ups.strength/2+randomInt(1, skill_lvl <= 0 ? 1 : skill_lvl)+1);
-        clrlog(`╔ Використано {green}[Удар ._.]{/green}\n╚ Здійснено {red}[${dmg}]{/red} шкоди`);
+        clrlog(`╔ Використано {green}[${userdata.skills['punch'].displayName}]{/green}\n╚ Здійснено {red}[${dmg}]{/red} шкоди`);
     }
 };
 
 module.exports.info = {
     name:           'punch',
-    displayName:    'Punch',
-    type:           'active',
+    displayName:    'Удар ._.',
+    event:          'active',
     required:       0,
-    expected_event: 'none'
 };

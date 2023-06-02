@@ -1,11 +1,15 @@
-const { printUserdata, saveSave, addXp, parseExpres } = require('../utils');
+const { printUserdata, getAdvValue, saveSave, addXp, parseExpres, countSpaces, lvlUpProcedure } = require('../utils');
 const { Selector } = require('../classes/selector');
 const { gMenus, game_configs } = require('../globals');
-const phrases = require(`../${game_configs["phrases"]}`)
-const conf = require(`../${game_configs["gameconf"]}`)
+const phrases = require(`../${game_configs["phrases"]}`);
 
 const HndlEndAdvMenu = async (userdata, data) => {
+    if(userdata.temp.lvluped){
+        lvlUpProcedure(userdata, [HndlEndAdvMenu, userdata, false]).show();
+        return;
+    }
     gMenus.get('playstart')(userdata).show();
+    saveSave(userdata);
 }
 module.exports = {   
     menu(userdata, args){
@@ -23,11 +27,11 @@ module.exports = {
                 quest = phrases[`${argspl[0]}_${argspl[1]}`] ? phrases[`${argspl[0]}_${argspl[1]}`] : phrases['error_adv'];
             break;
         }
-        const xp = parseExpres(conf[`${argspl[0]}_xp_reward`].replaceAll('lvl', userdata.lvl));
-        quest += `\nЗдобуто {green}${xp}{/green} досвіду`;
+        const xp = parseExpres(getAdvValue(argspl[0], 'xp_reward').replaceAll('lvl', userdata.lvl));
+        quest += `\nОтримано {green}[${xp}]{/green} досвіду`;
         addXp(userdata, xp, 0);
-        saveSave(userdata);
-        printUserdata(userdata, {x: 40, y: 2+(quest.match((/\n/g) || []) ? quest.match((/\n/g) || []).length : 0)}, 1);
+        console.log(countSpaces(quest));
+        printUserdata(userdata, {x: 40, y: countSpaces(quest)}, 1);
         if(userdata.temp.startlvl !== userdata.lvl){
             quest += `\nЗдобуто рівнів: [{green}${userdata.temp.startlvl} ➢  ${userdata.lvl}{/green}]`;
         }

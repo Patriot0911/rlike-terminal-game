@@ -22,7 +22,7 @@ const HndlSmallBattle = async (userdata, data) => {
     if(!parseInt(answer[1])){
         if(Math.round(Math.random()*100) > 50){
             clrlog("Ви успішно змогли втекти від ворога!");
-            clrlog("Отримано {green}5{/green} досвіду");
+            clrlog("Отримано {green}[5]{/green} досвіду");
             addXp(userdata, 5);
         }else{
             clrlog("Ваша втеча не була настільки успішною, як вам би хотілося");

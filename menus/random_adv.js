@@ -1,4 +1,4 @@
-const { printUserdata } = require('../utils');
+const { printUserdata, lvlUpProcedure } = require('../utils');
 const { gMenus, modEvents } = require('../globals');
 
 module.exports = {   
@@ -8,6 +8,9 @@ module.exports = {
         }
         if(userdata.temp.health <= 0){
             return gMenus.get('death_in_adv')(userdata).show();
+        }
+        if(userdata.temp.lvluped){
+            return lvlUpProcedure(userdata, [gMenus.get('random_adv'), args, true]);
         }
         ++userdata.temp.adv_act;
         printUserdata(userdata, {x: 40, y: 2}, 1);

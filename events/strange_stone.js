@@ -1,5 +1,5 @@
 const { Selector } = require('../classes/selector');
-const { printUserdata, sleep, clrlog, takeDamage, addXp } = require('../utils');
+const { printUserdata, sleep, clrlog, takeDamage, addXp, countSpaces } = require('../utils');
 const { game_configs, gMenus, dmg_types } = require('../globals');
 const phrases = require(`../${game_configs["phrases"]}`)
 
@@ -22,7 +22,7 @@ const HndlStrangeStone = async (userdata, data) => {
 module.exports = {
     action(userdata, args){
         const str = phrases['strange_stone_quest'];
-        printUserdata(userdata, {x: 40, y: 2+(str.match((/\n/g) || []) ? str.match((/\n/g) || []).length : 0)}, 1);
+        printUserdata(userdata, {x: 40, y: countSpaces(str)}, 1);
         const options = [
             ['Підібрати'],
             ['Залишити його на землі']

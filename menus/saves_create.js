@@ -20,9 +20,10 @@ const HndlSavesCreateMainMenu = async (userdata, data) => {
         }).show();
         return;
     }
+    const conf = parseFile(`./${game_configs['gameconf']}`);
     saveFile[data] = {
         name: 'None',
-        lvl:  0,
+        lvl:  conf.beginlvl,
         xp:   0,
         ups:
         {
@@ -31,13 +32,7 @@ const HndlSavesCreateMainMenu = async (userdata, data) => {
             agility:  0,
             intelligence: 0
         },
-        skills:
-        {
-            'punch':
-            {
-                lvl: 0
-            }
-        }
+        skills: conf.beginskills
     }
     fs.writeFileSync(`./${game_configs['saves']}`, JSON.stringify(saveFile), {
         encoding: "utf8",

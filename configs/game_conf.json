@@ -1,7 +1,15 @@
 {
-    "Dungeon_lvl":                  20,
-    
-    "wander_the_world_acts":        5,
-    "wander_the_world_xp_reward":   "30+2*lvl",
-    "dungeon_acts":                 15
+    "lvl_formula":      "lvl*5+15",
+    "maxhp_formula":    "15+lvl*2+health*5",
+    "maxmana_formula":  "lvl+intelligence",
+
+    "beginlvl": 0,
+    "beginskills":
+    {
+        "punch": 
+        {
+            "displayName": "Удар ._.",
+            "lvl":  "0"
+        }
+    }
 }

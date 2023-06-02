@@ -9,8 +9,7 @@ module.exports = {
 
 module.exports.info = {
     name:           'heal',
-    displayName:    'heal',
-    type:           'active',
+    displayName:    'Зцілення',
+    event:          'active',
     required:       0,
-    expected_event: 'none'
 };

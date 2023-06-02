@@ -9,7 +9,7 @@ module.exports = {
     menu(userdata, args){
         const conf = require(`../${game_configs['descript']}`);
         return new Selector({
-            question:   conf[args] ? conf[args] : 'На жаль, ця здібність не має опису.',
+            question:   `{green}[${userdata.skills[args].displayName}]{/green}\nРівень зібності: [${userdata.skills[args].lvl}]\n\nОпис:\n${(conf[args] ? conf[args] : 'На жаль, ця здібність не має опису.')}`,
             options:    [['Back']],
             params:     [['Back']],
             begin: {

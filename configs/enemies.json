@@ -63,6 +63,26 @@
                 }
             }
         },
+        "Фея":
+        {
+            "health":   5,
+            "xp":       15,
+            "dmg": {
+                "min": 1,
+                "max":  4
+            },
+            "dmgtype":  2,
+            "resist": {
+                "type": 0,
+                "proc": 90 
+            },
+            "skills": {
+                "magic_hit": {
+                    "DisplayName": "Слабкий магічний удар",
+                    "lvl":  4
+                }
+            }
+        },
         "Розбійник":
         {
             "health":   25,
@@ -86,26 +106,10 @@
 
                     "DisplayName": "Прихований випад",
                     "lvl":  2
-                }
-            }
-        },
-        "Фея":
-        {
-            "health":   5,
-            "xp":       15,
-            "dmg": {
-                "min": 1,
-                "max":  4
-            },
-            "dmgtype":  2,
-            "resist": {
-                "type": 0,
-                "proc": 90 
-            },
-            "skills": {
-                "magic_hit": {
-                    "DisplayName": "Слабкий магічний удар",
-                    "lvl":  4
+                },
+                "hit": {
+                    "DisplayName": "Удар",
+                    "lvl":  2
                 }
             }
         }

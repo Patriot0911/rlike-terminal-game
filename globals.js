@@ -14,7 +14,8 @@ const game_configs = {
     'gameconf':     'configs/game_conf.json',
     'enemies':      'configs/enemies.json',
     'descript':     'configs/skills_descript.json',
-    'phrases':      'configs/phrases.json'
+    'phrases':      'configs/phrases.json',
+    'adventures':   "configs/adventures.json"
 };
 
 const clrs = {
