@@ -1,8 +1,6 @@
-const { Selector } = require('../classes/selector');
-const { printUserdata, sleep, clrlog, addXp, countSpaces } = require('../utils');
+const { sleep, clrlog, addXp } = require('../utils');
 const { game_configs, gMenus } = require('../globals');
 const phrases = require(`../${game_configs["phrases"]}`)
-
 
 const HndlAncStructEnd = async (userdata, data) => {
     console.clear();
@@ -15,34 +13,9 @@ const HndlAncStructEnd = async (userdata, data) => {
     gMenus.get('random_adv')(userdata, data).show();
 }
 
-const anc_struct_2 = (userdata, data) => {
-    console.clear();
-    const str = phrases['anc_struct_2'];
-    printUserdata(userdata, {x: 40, y: countSpaces(str)}, 1);
-    return new Selector({
-        question:   str,
-        options:    [['Next']],
-        params:     [['Next']],
-        begin: {
-            x: 0,
-            y: 0
-        }
-    }, HndlAncStructEnd, userdata, data).show();
-}
-
 module.exports = {
     action(userdata, args){
-        const str = phrases['anc_struct_1'];
-        printUserdata(userdata, {x: 40, y: countSpaces(str)}, 1);
-        return new Selector({
-            question:   str,
-            options:    [['Next']],
-            params:     [['Next']],
-            begin: {
-                x: 0,
-                y: 0
-            }
-        }, anc_struct_2, userdata, args);
+        return gMenus.get('phrase_menu')(userdata, args, HndlAncStructEnd, ['anc_struct_1', 'anc_struct_2'], 1);
     }
 };
 

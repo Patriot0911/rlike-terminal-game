@@ -1,3 +1,4 @@
+const { gMenus } = require('../globals')
 const { countAbbLvl } = require('../utils');
 const { Selector } = require('../classes/selector');
 

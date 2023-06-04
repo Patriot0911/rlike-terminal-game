@@ -4,8 +4,8 @@
         "dungeon_low":      "{red}Підземелля \"Рупрехта\" [Lvl $lvl+]{/red}"
     },
     "wander_the_world": {
-        "acts":         5,
-        "xp_reward":    "15+5*lvl"
+        "acts":         7,
+        "xp_reward":    "15+3*lvl"
     },
     "dungeon_low": {
         "reqlvl":       20,

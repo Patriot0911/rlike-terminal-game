@@ -1,8 +1,5 @@
-const { Selector } = require('../classes/selector');
-const { printUserdata, sleep, clrlog, takeDamage, countSpaces } = require('../utils');
-const { game_configs, gMenus, dmg_types } = require('../globals');
-const phrases = require(`../${game_configs["phrases"]}`)
-
+const { sleep, clrlog, takeDamage } = require('../utils');
+const { gMenus, dmg_types } = require('../globals');
 
 const HndlUnluckyEven = async (userdata, data) => {
     console.clear();
@@ -15,17 +12,7 @@ const HndlUnluckyEven = async (userdata, data) => {
 
 module.exports = {
     action(userdata, args){
-        const str = phrases['unlucky_evening'];
-        printUserdata(userdata, {x: 40, y: countSpaces(str)}, 1);
-        return new Selector({
-            question:   str,
-            options:    [['Next']],
-            params:     [['Next']],
-            begin: {
-                x: 0,
-                y: 0
-            }
-        }, HndlUnluckyEven, userdata, args);
+        return gMenus.get('phrase_menu')(userdata, args, HndlUnluckyEven, 'unlucky_evening', 1);
     }
 };
 
