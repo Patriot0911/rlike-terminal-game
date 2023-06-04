@@ -12,7 +12,8 @@ const HndlMainMenu = async (userdata, data) => {
             gMenus.get('savesmainmenu')().show();
         break;
         case 'Editor' :
-
+            console.clear();
+            gMenus.get('editormainmenu')().show();
         break;
         case 'Exit' :
             console.clear();
@@ -25,7 +26,7 @@ module.exports = {
         const params = [
             ['Play'],
             ['Saves'],
-            ['Edittor'],
+            ['Editor'],
             ['Exit']
         ];
         return new Selector({

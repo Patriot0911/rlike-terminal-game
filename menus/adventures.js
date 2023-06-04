@@ -10,7 +10,7 @@ const HndlPlayAdvMainMenu = async (userdata, data) => {
     console.clear();
     gMenus.get('begin_adventure')(userdata, data).show();
 }
-module.exports = {   
+module.exports = {
     menu(userdata, args){
         printUserdata(userdata, {x: 40, y: 2});
         const advfile = parseFile(`./${game_configs['adventures']}`);

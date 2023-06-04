@@ -25,7 +25,7 @@ const HndlFightMain = async (userdata, data, pack) => {
         return;
     }
     Skillmap.get(data).callback(userdata, userdata.temp.enemy, userdata.skills[data].lvl);
-    await sleep(3000);
+    await sleep(4000);
     if(userdata.temp.enemy.health > 0){
         const activs = {...userdata.temp.enemy.skills};
         const startkeys = Object.keys(userdata.temp.enemy.skills);
@@ -39,7 +39,7 @@ const HndlFightMain = async (userdata, data, pack) => {
             const skill = keys[Math.floor(Math.random()*keys.length)];
             enemiesSkills['skills'].get(skill).callback(userdata, userdata.temp.enemy, userdata.temp.enemy.skills[skill].lvl);
             clrlog('{red}Хід Суперника{/red}');
-            await sleep(3000);
+            await sleep(4000);
         }
     }
     console.clear();

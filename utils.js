@@ -7,9 +7,9 @@ const randomInt = (min, max) => (min+Math.floor(Math.random()*(max-min)));
 
 const countSpaces = (str) => (str.match(/\n/g) ? str.match(/\n/g).length+1 : 1);
 
-const parseExpres = (str) => {
-    return Function(`'use strict'; return (${str})`)();
-};
+const lvlUpProcedure = (userdata, pack) => globals.gMenus.get('lvlupstats')(userdata, pack);
+
+const parseExpres = (str) => Function(`'use strict'; return (${str})`)();
 
 const replaceClr = (str, index = 0) => {
     index = str.indexOf('{', index)+1;
@@ -191,9 +191,6 @@ const dealDamage = async (userdata, type = dmg_types.physic, count) => {
             dmg = await buffer.callback(userdata, userdata.temp.enemy.skills[kes[i]].lvl, type, dmg);
         }
     }
-    if(userdata.temp.enemy.resist !== 'none' && (userdata.temp.enemy.resist.type === type || userdata.temp.enemy.resist.type === -1)){
-        dmg *= (userdata.temp.enemy.resist.proc/100);
-    }
     dmg = Math.round(dmg * 10) / 10;
     if(dmg < 0){
         if(userdata.temp.enemy.health+Math.abs(dmg) >= userdata.temp.enemy.maxhealth){
@@ -251,7 +248,13 @@ const countAbbLvl = (userdata) => {
     return count;
 }
 
-const lvlUpProcedure = (userdata, pack) => globals.gMenus.get('lvlupstats')(userdata, pack);
+
+const pushSkill = (userdata, skill) => {
+    userdata.skills[skill] = {};
+    userdata.skills[skill].lvl = 0;
+    userdata.skills[skill].displayName = globals.Skillmap.get(skill).displayName;
+    saveSave(userdata);
+}
 
 module.exports = {
     replaceClr, deleteClrs, clrlog, countSpaces,
@@ -261,5 +264,5 @@ module.exports = {
     deleteSave, parseFile, saveSave, getAdvValue,
     addXp, countStatsLvl, countAbbLvl, lvlUpProcedure,
     printUserdata,
-    takeDamage, dealDamage
+    takeDamage, dealDamage, pushSkill
 };

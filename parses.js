@@ -18,7 +18,6 @@ module.exports = {
             });
             Skills_list.push(skill.info.name);
             ++count_s;
-            console.log(`Loaded ${skill.info.name}`);
         }
         return count_s;
     },

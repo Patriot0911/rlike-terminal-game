@@ -10,10 +10,6 @@
                 "max":  4
             },
             "dmgtype":  2,
-            "resist": {
-                "type": 0,
-                "proc": 50 
-            },
             "skills": {
                 "hit": {
                     "DisplayName": "Удар",
@@ -22,7 +18,11 @@
                 "spit": {
                     "DisplayName": "Плювок силзі",
                     "lvl":  4
-                }                
+                },
+                "phys_resist": {
+                    "DisplayName": "Фізичний супротив",
+                    "lvl":  25
+                }
             }
         },
         "Гоблін":
@@ -34,7 +34,6 @@
                 "max":  7
             },
             "dmgtype":  1,
-            "resist":   "none",
             "skills": {
                 "hit": {
                     "DisplayName": "Удар",
@@ -55,7 +54,6 @@
                 "max":  5
             },
             "dmgtype":  1,
-            "resist":   "none",
             "skills": {
                 "dash": {
                     "DisplayName": "Ривок з випадом",
@@ -72,14 +70,14 @@
                 "max":  4
             },
             "dmgtype":  2,
-            "resist": {
-                "type": 0,
-                "proc": 90 
-            },
             "skills": {
                 "magic_hit": {
                     "DisplayName": "Слабкий магічний удар",
                     "lvl":  4
+                },
+                "phys_resist": {
+                    "DisplayName": "Фізичний супротив",
+                    "lvl":  90
                 }
             }
         },
@@ -92,7 +90,6 @@
                 "max":  8
             },
             "dmgtype":  1,
-            "resist":   "none",
             "skills": {
                 "reflect": {
                     "DisplayName": "Контратака",
