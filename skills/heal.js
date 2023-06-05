@@ -3,7 +3,7 @@ const { clrlog, getMaxHealth, sleep, takeDamage } = require("../utils");
 
 module.exports = {
     async callback(userdata, target, skill_lvl){
-        const value  = Math.floor(skill_lvl*1.5);
+        const value  = Math.floor(skill_lvl*1.5+intelligence*2);
         const maxhealth = getMaxHealth(userdata);
         const count = userdata.temp.health+value > maxhealth ? maxhealth-userdata.temp.health : value;         
         if(userdata.temp.mana < skill_lvl){
@@ -33,5 +33,5 @@ module.exports.info = {
     name:           'heal',
     displayName:    'Зцілення',
     event:          'active',
-    required:       0,
+    cat:            'classic'
 };

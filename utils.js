@@ -127,16 +127,17 @@ const printUserdata = (userdata, coords = { x: 0, y: 0 }, tempbar = 0, enemybar 
         if(enemybar && userdata.temp.enemy){
             scoords = {...coords};
             scoords.x += max +30;
+            const enmax = userdata.temp.enemy.name.length+20;
             rdl.cursorTo(stdout, scoords.x, scoords.y);
-            stdout.write('╔'.padEnd(25, '═') + '╗\n');
+            stdout.write('╔'.padEnd(enmax, '═') + '╗\n');
             rdl.cursorTo(stdout, scoords.x, ++scoords.y);
-            stdout.write(`║Name: ${userdata.temp.enemy.name}`.padEnd(25, ' ') + '║\n');
+            stdout.write(`║Name: ${userdata.temp.enemy.name}`.padEnd(enmax, ' ') + '║\n');
             rdl.cursorTo(stdout, scoords.x, ++scoords.y);
-            stdout.write(`║Hp: ${userdata.temp.enemy.health}/${userdata.temp.enemy.maxhealth}`.padEnd(25, ' ') + '║\n');
+            stdout.write(`║Hp: ${userdata.temp.enemy.health}/${userdata.temp.enemy.maxhealth}`.padEnd(enmax, ' ') + '║\n');
             rdl.cursorTo(stdout, scoords.x, ++scoords.y);
-            stdout.write(`║Dmg:  ${userdata.temp.enemy.dmg.min}~${userdata.temp.enemy.dmg.max}`.padEnd(25, ' ') + '║\n');
+            stdout.write(`║Dmg:  ${userdata.temp.enemy.dmg.min}~${userdata.temp.enemy.dmg.max}`.padEnd(enmax, ' ') + '║\n');
             rdl.cursorTo(stdout, scoords.x, ++scoords.y);
-            stdout.write('╚'.padEnd(25, '═') + '╝\n');
+            stdout.write('╚'.padEnd(enmax, '═') + '╝\n');
         }
     }
     rdl.cursorTo(stdout, coords.x, coords.y);

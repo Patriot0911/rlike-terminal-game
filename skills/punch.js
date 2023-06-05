@@ -12,5 +12,5 @@ module.exports.info = {
     name:           'punch',
     displayName:    'Удар ._.',
     event:          'active',
-    required:       0,
+    cat:            'classic'
 };

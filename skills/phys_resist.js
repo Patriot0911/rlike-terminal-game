@@ -22,5 +22,5 @@ module.exports.info = {
     name:           'phys_resist',
     displayName:    'Physical resistance',
     event:          'damage_taken',
-    required:        0,
+    cat:            'classic'
 };

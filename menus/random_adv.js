@@ -3,11 +3,11 @@ const { gMenus, modEvents } = require('../globals');
 
 module.exports = {   
     menu(userdata, args){
+        if(userdata.temp.health <= 0){
+            return gMenus.get('death_in_adv')(userdata);
+        }
         if(userdata.temp.max_acts !== -1 && (userdata.temp.adv_act >= userdata.temp.max_acts || !modEvents[`${args}_list`])){
             return gMenus.get('end_adv')(userdata, `${args}|${userdata.temp.adv_act >= userdata.temp.max_acts ? 'max' : 'empty_events'}`);
-        }
-        if(userdata.temp.health <= 0){
-            return gMenus.get('death_in_adv')(userdata).show();
         }
         if(userdata.temp.lvluped){
             return lvlUpProcedure(userdata, [gMenus.get('random_adv'), args, true]);

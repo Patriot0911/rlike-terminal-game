@@ -15,6 +15,7 @@ module.exports = {
                 lvl:            skill.info.required,
                 displayName:    skill.info.displayName,
                 event:          skill.info.event,
+                cat:            skill.info.cat,
                 callback:       skill.callback
             });
             Skills_list.push(skill.info.name);

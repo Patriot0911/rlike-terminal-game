@@ -15,5 +15,5 @@ module.exports.info = {
     name:           'poison_resist',
     displayName:    'Poison Immune',
     event:          'damage_taken',
-    required:        0,
+    cat:            'classic'
 };

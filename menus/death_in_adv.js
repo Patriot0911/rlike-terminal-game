@@ -4,12 +4,12 @@ const { gMenus } = require('../globals');
 
 const HndlDeadEndMenu = async (userdata, data) => {
     console.clear();
-    gMenus.get('playstart')().show();
+    gMenus.get('playstart')(userdata).show();
 }
 module.exports = {
     menu(userdata, args){
         userdata.xp = 0;
-        printUserdata(userdata, {x: 40, y: 1}, 1);
+        printUserdata(userdata, {x: 40, y: 2}, 1);
         return new Selector({
             question:   `Схоже на цьому не простому шляху життя, вас спіткала невдача, і ви покинули цей світ...\nЯк добре, що цей дивний світ простіший за наш, тож ви всього-то втратили частину свого досвіду.`,
             options:    [["Next"]],

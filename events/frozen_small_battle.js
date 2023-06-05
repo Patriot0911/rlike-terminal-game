@@ -1,5 +1,4 @@
-const { Selector } = require('../classes/selector');
-const { printUserdata, sleep, clrlog, addXp, takeDamage, randomInt, pushEnemy } = require('../utils');
+const { printUserdata, sleep, clrlog, addXp, pushEnemy } = require('../utils');
 const { gMenus } = require('../globals');
 const { beginFight } = require('../fight');
 

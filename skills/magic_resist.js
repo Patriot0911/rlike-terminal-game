@@ -12,6 +12,6 @@ module.exports = {
 module.exports.info = {
     name:           'magic_resist',
     displayName:    'Magical resistance',
-    event:           'damage_taken',
-    required:        0
+    event:          'damage_taken',
+    cat:            'classic'
 };
