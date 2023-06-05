@@ -1,6 +1,6 @@
-const { printUserdata, getAdvValue, countSpaces } = require('../utils');
+const { printUserdata, getAdvValue, getMaxMana, getMaxHealth, countSpaces } = require('../utils');
 const { Selector } = require('../classes/selector');
-const { gMenus, game_configs, maxmana, maxhealth, modEvents } = require('../globals');
+const { gMenus, game_configs, modEvents } = require('../globals');
 const phrases = require(`../${game_configs["phrases"]}`)
 
 const HndlBeginAdvMenu = async (userdata, data) => {
@@ -8,8 +8,8 @@ const HndlBeginAdvMenu = async (userdata, data) => {
     userdata.temp.max_acts = getAdvValue(data, 'acts');
     userdata.temp.adv_act = 0;
     userdata.temp.startlvl = userdata.lvl;
-    userdata.temp.health = maxhealth(userdata.lvl, userdata.ups.health);
-    userdata.temp.mana = maxmana(userdata.lvl, userdata.ups.intelligence);
+    userdata.temp.health = getMaxHealth(userdata);
+    userdata.temp.mana = getMaxMana(userdata);
     gMenus.get('random_adv')(userdata, data).show();
 }
 module.exports = {   

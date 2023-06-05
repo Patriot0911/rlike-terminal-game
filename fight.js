@@ -1,3 +1,4 @@
+'use strict';
 const { takeDamage, printUserdata, clrlog, randomInt, sleep, addXp, lvlUpProcedure } = require('./utils');
 const { Skills_list, Skillmap, enemiesSkills } = require('./globals');
 const { Selector } = require('./classes/selector');
@@ -25,7 +26,7 @@ const HndlFightMain = async (userdata, data, pack) => {
         return;
     }
     Skillmap.get(data).callback(userdata, userdata.temp.enemy, userdata.skills[data].lvl);
-    await sleep(4000);
+    await sleep(5000);
     if(userdata.temp.enemy.health > 0){
         const activs = {...userdata.temp.enemy.skills};
         const startkeys = Object.keys(userdata.temp.enemy.skills);
@@ -37,9 +38,9 @@ const HndlFightMain = async (userdata, data, pack) => {
         const keys = Object.keys(activs);
         if(keys.length !== 0){
             const skill = keys[Math.floor(Math.random()*keys.length)];
-            enemiesSkills['skills'].get(skill).callback(userdata, userdata.temp.enemy, userdata.temp.enemy.skills[skill].lvl);
             clrlog('{red}Хід Суперника{/red}');
-            await sleep(4000);
+            enemiesSkills['skills'].get(skill).callback(userdata, userdata.temp.enemy, userdata.temp.enemy.skills[skill].lvl);
+            await sleep(6500);
         }
     }
     console.clear();
@@ -48,7 +49,7 @@ const HndlFightMain = async (userdata, data, pack) => {
 
 const FightMain = (userdata, pack) => {
     printUserdata(userdata, {x: 40, y: 1}, 1, 1);
-    if(userdata.health <= 0){
+    if(userdata.temp.health <= 0){
         pack.gotoFunc(userdata, pack.arg, false, 0);
         clearTempFights(userdata);
         return;

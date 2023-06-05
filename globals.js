@@ -1,13 +1,10 @@
+'use strict';
 const Skills_list = [];
 const modEvents = [];
 const enemiesSkills = [];
 
 const gMenus = new Map();
 const Skillmap = new Map();
-
-const lvlxp = (lvl) => lvl*5+10;
-const maxhealth = (lvl, health) => 15+lvl*2+health*5;
-const maxmana = (lvl, intelligence) => lvl+intelligence;
 
 const game_configs = {
     'saves':        'configs/saves.json',
@@ -35,13 +32,13 @@ const dmg_types = {
     magic:      1,
     poison:     2,
     fire:       3,
-    advphysic:  4
+    advphysic:  4,
+    frozen:     5
 };
 
 module.exports = {
     clrs, dmg_types,
     Skillmap, Skills_list, modEvents, enemiesSkills,
     game_configs,
-    lvlxp, maxhealth, maxmana,
     gMenus
 };

@@ -1,15 +1,15 @@
 {
     "list": {
         "wander_the_world": "Цей неймовірний світ",
-        "dungeon_low":      "{red}Підземелля \"Рупрехта\" [Lvl $lvl+]{/red}"
+        "dungeon_frozen":   "{red}Підземелля \"Рупрехта\" [Lvl $lvl+]{/red}"
     },
     "wander_the_world": {
         "acts":         7,
         "xp_reward":    "15+3*lvl"
     },
-    "dungeon_low": {
-        "reqlvl":       20,
-        "acts":         10,
-        "xp_reward":    "142+5*lvl"
+    "dungeon_frozen": {
+        "reqlvl":       25,
+        "acts":         15,
+        "xp_reward":    "84+8*lvl"
     }
 }

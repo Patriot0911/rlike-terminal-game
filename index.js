@@ -1,4 +1,5 @@
-const { hideCursor, exit, longest } = require("./utils.js");
+'use strict';
+const { hideCursor, exit } = require("./utils.js");
 const parse = require("./parses.js");
 const { gMenus } = require("./globals.js");
 

@@ -7,7 +7,7 @@ const HndlRabbitLeftEnd = async (userdata, data) => {
     console.clear();
     const xp = 15;
     if(userdata.relationship && userdata.relationship.rabbit){
-        clrlog("Схоже, що ви вже колись зустрічали цього кролика.\nНавіть згадали його ім'я. Його звати {magenta}Саймон{/magenta}.\nЩо-ж, тоді привітаєтесь з ним іншим разом, а поки потрібно продовжувати свою подорож.");
+        clrlog("Схоже, що ви вже колись зустрічали цього кролика.\nНавіть згадали його ім'я. Його звати {magenta}[Саймон]{/magenta}.\nЩо-ж, тоді привітаєтесь з ним іншим разом, а поки потрібно продовжувати свою подорож.");
         clrlog(`Отримано {green}[${xp}]{/green} досвіду, за зустріч зі старим знайомим`)
         addXp(userdata, xp);
     }else{

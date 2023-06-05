@@ -54,7 +54,6 @@ const chooseSave = () => {
     const sFile = parseFile(`./${game_configs['saves']}`);
     const params = [];
     const keys = Object.keys(sFile);
-    console.log(keys);
     for(let i = 0; i < keys.length; i++){
         params.push([keys[i]]);
     }

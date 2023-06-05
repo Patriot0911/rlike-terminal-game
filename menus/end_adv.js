@@ -30,7 +30,6 @@ module.exports = {
         const xp = parseExpres(getAdvValue(argspl[0], 'xp_reward').replaceAll('lvl', userdata.lvl));
         quest += `\nОтримано {green}[${xp}]{/green} досвіду`;
         addXp(userdata, xp, 0);
-        console.log(countSpaces(quest));
         printUserdata(userdata, {x: 40, y: countSpaces(quest)}, 1);
         if(userdata.temp.startlvl !== userdata.lvl){
             quest += `\nЗдобуто рівнів: [{green}${userdata.temp.startlvl} ➢  ${userdata.lvl}{/green}]`;

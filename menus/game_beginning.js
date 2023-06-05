@@ -15,7 +15,7 @@ const HndlGameBegining = async (userdata, data) => {
 module.exports = {   
     menu(userdata, args){
         return new QuestionLine({
-            question: 'Welcome to the new Adventure World!\nTo begin with, we wanna ask you to type your new Character name:',
+            question: 'Вітаємо вас у цьому чудовому світі!\nЦей всесвіт є далеко не таким нормальним у нашому розумінні. Приготуйтеся до зустрічі з доволі специфічними створіннями...\nДля початку, дайте ім`я своєму персонажу:',
             maxlength: 8,
             x: 0,
             y: 0

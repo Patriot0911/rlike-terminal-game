@@ -1,3 +1,4 @@
+'use strict';
 const fs = require('node:fs');
 const rdl = require('node:readline');
 const stdout = process.stdout;
@@ -10,6 +11,19 @@ const countSpaces = (str) => (str.match(/\n/g) ? str.match(/\n/g).length+1 : 1);
 const lvlUpProcedure = (userdata, pack) => globals.gMenus.get('lvlupstats')(userdata, pack);
 
 const parseExpres = (str) => Function(`'use strict'; return (${str})`)();
+
+const getMaxHealth = (userdata) => {
+    const confFile = parseFile(`./${globals.game_configs["gameconf"]}`);
+    return  parseExpres(confFile.maxhp_formula.replaceAll('lvl', userdata.lvl).replaceAll('health', userdata.ups.health));
+};
+const getMaxMana = (userdata) => {
+    const confFile = parseFile(`./${globals.game_configs["gameconf"]}`);
+    return  parseExpres(confFile.maxmana_formula.replaceAll('lvl', userdata.lvl).replaceAll('intelligence', userdata.ups.intelligence));
+};
+const getLvlxp = (userdata) => {
+    const confFile = parseFile(`./${globals.game_configs["gameconf"]}`);
+    return  parseExpres(confFile.lvl_formula.replaceAll('lvl', userdata.lvl));
+}; // можна ще допрацювати під одну функцію з однією змінною
 
 const replaceClr = (str, index = 0) => {
     index = str.indexOf('{', index)+1;
@@ -105,9 +119,9 @@ const printUserdata = (userdata, coords = { x: 0, y: 0 }, tempbar = 0, enemybar 
         rdl.cursorTo(stdout, scoords.x, scoords.y);
         stdout.write('╔'.padEnd(25, '═') + '╗\n');
         rdl.cursorTo(stdout, scoords.x, ++scoords.y);
-        stdout.write(`║❤️  ${userdata.temp.health}/${globals.maxhealth(userdata.lvl, userdata.ups.health)}`.padEnd(25, ' ') + ' ║\n');
+        stdout.write(`║Hp: ${userdata.temp.health}/${getMaxHealth(userdata)}`.padEnd(25, ' ') + '║\n');
         rdl.cursorTo(stdout, scoords.x, ++scoords.y);
-        stdout.write(`║🔮 ${userdata.temp.mana}/${globals.maxmana(userdata.lvl, userdata.ups.intelligence)}`.padEnd(25, ' ') + '║\n');
+        stdout.write(`║Mana: ${userdata.temp.mana}/${getMaxMana(userdata)}`.padEnd(25, ' ') + '║\n');
         rdl.cursorTo(stdout, scoords.x, ++scoords.y);
         stdout.write('╚'.padEnd(25, '═') + '╝\n');
         if(enemybar && userdata.temp.enemy){
@@ -116,11 +130,11 @@ const printUserdata = (userdata, coords = { x: 0, y: 0 }, tempbar = 0, enemybar 
             rdl.cursorTo(stdout, scoords.x, scoords.y);
             stdout.write('╔'.padEnd(25, '═') + '╗\n');
             rdl.cursorTo(stdout, scoords.x, ++scoords.y);
-            stdout.write(` ║Name: ${userdata.temp.enemy.name}`.padEnd(25, ' ') + ' ║\n');
+            stdout.write(`║Name: ${userdata.temp.enemy.name}`.padEnd(25, ' ') + '║\n');
             rdl.cursorTo(stdout, scoords.x, ++scoords.y);
-            stdout.write(`║❤️  ${userdata.temp.enemy.health}/${userdata.temp.enemy.maxhealth}`.padEnd(25, ' ') + ' ║\n');
+            stdout.write(`║Hp: ${userdata.temp.enemy.health}/${userdata.temp.enemy.maxhealth}`.padEnd(25, ' ') + '║\n');
             rdl.cursorTo(stdout, scoords.x, ++scoords.y);
-            stdout.write(`║⚔️  ${userdata.temp.enemy.dmg.min}~${userdata.temp.enemy.dmg.max}`.padEnd(25, ' ') + ' ║\n');
+            stdout.write(`║Dmg:  ${userdata.temp.enemy.dmg.min}~${userdata.temp.enemy.dmg.max}`.padEnd(25, ' ') + '║\n');
             rdl.cursorTo(stdout, scoords.x, ++scoords.y);
             stdout.write('╚'.padEnd(25, '═') + '╝\n');
         }
@@ -132,7 +146,7 @@ const printUserdata = (userdata, coords = { x: 0, y: 0 }, tempbar = 0, enemybar 
     rdl.cursorTo(stdout, coords.x, ++coords.y);
     stdout.write(('║Level: ' + userdata.lvl).padEnd(max, ' ') + '║\n');
     rdl.cursorTo(stdout, coords.x, ++coords.y);
-    stdout.write(('║Xp: ' + userdata.xp + '/' + globals.lvlxp(userdata.lvl)).padEnd(max, ' ') + '║\n');
+    stdout.write(('║Xp: ' + userdata.xp + '/' + getLvlxp(userdata)).padEnd(max, ' ') + '║\n');
     rdl.cursorTo(stdout, coords.x, ++coords.y);
     stdout.write('║Stats:'.padEnd(max, ' ') + '║\n');
     rdl.cursorTo(stdout, coords.x, ++coords.y);
@@ -165,10 +179,10 @@ const takeDamage = async (userdata, type = globals.dmg_types.absolute, count) =>
     }
     dmg = Math.round(dmg * 10) / 10;
     if(dmg < 0){
-        if(userdata.temp.health+Math.abs(dmg) < globals.maxhealth(userdata.lvl, userdata.temp.health)){
+        if(userdata.temp.health+Math.abs(dmg) < getMaxHealth(userdata)){
             userdata.temp.health+=Math.abs(dmg);
         }else{
-            userdata.temp.health = globals.maxhealth(userdata.lvl, userdata.temp.health);
+            userdata.temp.health = getMaxHealth(userdata);
         }
     }else{
         userdata.temp.health -= dmg;
@@ -216,12 +230,12 @@ const addXp = (userdata, count, print = 1) => {
     }
     userdata.xp += count;
     const curlvl = userdata.lvl;
-    while(globals.lvlxp(userdata.lvl) <= userdata.xp){
-        userdata.xp-=globals.lvlxp(userdata.lvl);
+    while(getLvlxp(userdata) <= userdata.xp){
+        userdata.xp-=getLvlxp(userdata);
         ++userdata.lvl;
     }
     if(curlvl !== userdata.lvl){
-        if(print) clrlog(`{green}[LvlUp] ${curlvl} ➢  ${userdata.lvl}{/green}`);
+        if(print) clrlog(`{green}[LvlUp] ${curlvl} =>  ${userdata.lvl}{/green}`);
         userdata.temp.lvluped = true;
     }
 };
@@ -246,23 +260,38 @@ const countAbbLvl = (userdata) => {
         count += userdata.skills[keys[i]].lvl;
     }
     return count;
-}
+};
 
 
 const pushSkill = (userdata, skill) => {
+    if(userdata.skills[skill]) return;
     userdata.skills[skill] = {};
     userdata.skills[skill].lvl = 0;
     userdata.skills[skill].displayName = globals.Skillmap.get(skill).displayName;
     saveSave(userdata);
-}
+};
+
+const pushEnemy = (userdata, key, preset = { random: true, cur: 'none' }) => {
+    const enemies = parseFile(`./${globals.game_configs["enemies"]}`);
+    if(!enemies[key]){
+        console.error(`Cannt find: "${enemies[key]}" in enemies list`);
+        exit();
+    }
+    const kes = Object.keys(enemies[key]);
+    const enemyid = preset.random ? Math.floor(Math.random()*kes.length) : enemies.findIndex((el) => el === preset.cur);
+    userdata.temp.enemy = enemies[key][kes[enemyid]];
+    userdata.temp.enemy.name = kes[enemyid];
+    userdata.temp.enemy.maxhealth = userdata.temp.enemy.health;
+};
 
 module.exports = {
     replaceClr, deleteClrs, clrlog, countSpaces,
     hideCursor, showCursor,
     exit, sleep,
-    longest, parseExpres, randomInt,
+    longest, parseExpres, randomInt, pushEnemy,
     deleteSave, parseFile, saveSave, getAdvValue,
     addXp, countStatsLvl, countAbbLvl, lvlUpProcedure,
-    printUserdata,
+    printUserdata, 
+    getMaxHealth, getMaxMana, getLvlxp,
     takeDamage, dealDamage, pushSkill
 };

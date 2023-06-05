@@ -1,3 +1,4 @@
+'use strict';
 const { Skillmap, Skills_list, modEvents, enemiesSkills, gMenus } = require('./globals.js');
 const fs = require('fs');
 

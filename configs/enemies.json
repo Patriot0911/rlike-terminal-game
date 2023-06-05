@@ -1,5 +1,5 @@
 {
-    "wander_the_world_small":
+    "forest_fight_small":
     {
         "Слимак":
         {
@@ -107,6 +107,148 @@
                 "hit": {
                     "DisplayName": "Удар",
                     "lvl":  2
+                }
+            }
+        }
+    },
+    "frost_small_battle":
+    {
+        "Слимак":
+        {
+            "health":   20,
+            "xp":       30,
+            "dmg": {
+                "min": 1,
+                "max":  4
+            },
+            "dmgtype":  2,
+            "skills": {
+                "hit": {
+                    "DisplayName": "Удар",
+                    "lvl":  2
+                },
+                "spit": {
+                    "DisplayName": "Плювок силзі",
+                    "lvl":  4
+                },
+                "phys_resist": {
+                    "DisplayName": "Фізичний супротив",
+                    "lvl":  45
+                }
+            }
+        }
+    },
+    "frozen_small_battle":
+    {
+        "Крижаний Скелет":
+        {
+            "health":   35,
+            "xp":       45,
+            "dmg": {
+                "min": 8,
+                "max":  12
+            },
+            "dmgtype":  0,
+            "skills": {
+                "hit": {
+                    "DisplayName": "Удар",
+                    "lvl":  5
+                },
+                "dash": {
+                    "DisplayName": "Ріжучий удар",
+                    "lvl":  20
+                },
+                "froz_resist": {
+                    "DisplayName": "Супротив холоду",
+                    "lvl":  95
+                }
+            }
+        },
+        "Крижаний Слимак":
+        {
+            "health":   20,
+            "xp":       25,
+            "dmg": {
+                "min": 1,
+                "max":  6
+            },
+            "dmgtype":  2,
+            "skills": {
+                "hit": {
+                    "DisplayName": "Удар",
+                    "lvl":  2
+                },
+                "spit": {
+                    "DisplayName": "Плювок силзі",
+                    "lvl":  4
+                },
+                "phys_resist": {
+                    "DisplayName": "Фізичний супротив",
+                    "lvl":  25
+                },
+                "froz_resist": {
+                    "DisplayName": "Супротив холоду",
+                    "lvl":  95
+                }                
+            }
+        },
+        "Лицар скелет":
+        {
+            "health":   75,
+            "xp":       90,
+            "dmg": {
+                "min": 15,
+                "max":  35
+            },
+            "dmgtype":  0,
+            "skills": {
+                "hit": {
+                    "DisplayName": "Удар",
+                    "lvl":  5
+                },
+                "dash": {
+                    "DisplayName": "Ріжучий удар",
+                    "lvl":  20
+                },
+                "heavy_hit": {
+                    "DisplayName": "Важкий удар",
+                    "lvl":  20
+                },
+                "evade": {
+                    "DisplayName": "Парирування",
+                    "lvl":  15
+                },
+                "phys_resist": {
+                    "DisplayName": "Фізичний супротив",
+                    "lvl":  50
+                },
+                "froz_resist": {
+                    "DisplayName": "Супротив холоду",
+                    "lvl":  100
+                }
+            }
+        },
+        "Скелет Чаклун [Low lvl]":
+        {
+            "health":   25,
+            "xp":       25,
+            "dmg": {
+                "min": 0,
+                "max":  15
+            },
+            "dmgtype":  1,
+            "skills": {
+                "spit": {
+                    "DisplayName": "Магічне отруєння",
+                    "lvl":  10
+                },
+                "heal": {
+                    "DisplayName": "Зцілення",
+                    "lvl":  8
+                },
+                "froz_resist": {
+                    "DisplayName": "Супротив холоду",
+                    "lvl":  95
                 }
             }
         }

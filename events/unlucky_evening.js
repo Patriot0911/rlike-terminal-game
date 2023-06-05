@@ -5,11 +5,11 @@ const HndlUnluckyEven = async (userdata, data) => {
     console.clear();
     const keys = Object.keys(userdata.skills);
     if(keys.includes('poison_resist') && userdata.skills['poison_resist'].lvl > 0){
-        clrlog(`╔ Викорастино {red}[${userdata.skills['poison_resist'].DisplayName}]{/red}\n╚ Пошкодження від отрути усунуті`);
+        clrlog(`╔ Викорастино {green}[${userdata.skills['poison_resist'].displayName}]{/green}\n╚ Пошкодження від отрути усунуті`);
     }else{
         const dmg = await takeDamage(userdata, dmg_types.poison, Math.round(Math.random()*5)+1);
         clrlog(`Отримано {red}${dmg}{/red} шкоди від отрути`);
-        if(Math.floor(Math.random()*100) < 15){
+        if(Math.floor(Math.random()*100) < 10 && !keys.includes('poison_resist')){
             clrlog('{magenta}[Здібність Роздобуто]{/magenta} Отримано імунітет від отрути');
             pushSkill(userdata, 'poison_resist');
             await sleep(1000);

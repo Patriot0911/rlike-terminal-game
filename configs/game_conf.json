@@ -1,5 +1,5 @@
 {
-    "lvl_formula":      "lvl*5+15",
+    "lvl_formula":      "lvl*7+28",
     "maxhp_formula":    "15+lvl*2+health*5",
     "maxmana_formula":  "lvl+intelligence",
 

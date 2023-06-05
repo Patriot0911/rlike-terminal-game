@@ -4,7 +4,7 @@ const { takeDamage, clrlog, randomInt } = require("../utils");
 module.exports = {
     async callback(userdata, target, skill_lvl){
         const dmg = await takeDamage(userdata, dmg_types.physic, randomInt(target.dmg.min, target.dmg.max));
-        clrlog(`╔ Використано {red}[${target.skills['hit'].DisplayName}]{/red}\n╚ Отримано {red}[${dmg}]{/red} шкоди`);
+        clrlog(`╔ Суперник використав {red}[${target.skills['hit'].DisplayName}]{/red}\n╚ Отримано {red}[${dmg}]{/red} шкоди`);
     }
 };
 
