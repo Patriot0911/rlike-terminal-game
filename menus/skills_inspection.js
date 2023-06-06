@@ -31,7 +31,6 @@ module.exports = {
             options[Math.floor(i/3)].push(skillname.length < 10 ? skillname : skillname.slice(0, 8) + '.. ');
         }
 
-
         params.push(['Back']);
         options.push(['Back']);
         return new Selector({

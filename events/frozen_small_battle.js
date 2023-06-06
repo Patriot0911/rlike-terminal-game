@@ -27,7 +27,6 @@ const HndlSmallBattle = async (userdata, data) => {
 
 module.exports = {
     action(userdata, args){
-        pushEnemy(userdata, 'frozen_small_battle', { random: 1 });
         return gMenus.get('phrase_menu')(userdata, args, HndlSmallBattle, 'frozen_way_1', 1);
     }
 };

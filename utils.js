@@ -196,6 +196,17 @@ const dealDamage = async (userdata, type = dmg_types.physic, count) => {
     let dmg = count,
         buffer;
     const kes = Object.keys(userdata.temp.enemy.skills);
+    const userkeys = Object.keys(userdata.skills);
+    for(let i = 0; i < userkeys.length; i++){
+        if(!globals.Skills_list.includes(userkeys[i])){
+            delete userdata.skills[userkeys[i]];
+            continue;
+        }
+        buffer = globals.Skillmap.get(userkeys[i]);
+        if(buffer.event === 'damage_deal'){
+            dmg = await buffer.callback(userdata, userdata.skills[userkeys[i]].lvl, type, dmg);
+        }
+    }    
     for(let i = 0; i < kes.length; i++){
         if(!globals.enemiesSkills['skills_list'].includes(kes[i])){
             delete userdata.temp.enemy.skills[kes[i]];
@@ -204,6 +215,16 @@ const dealDamage = async (userdata, type = dmg_types.physic, count) => {
         buffer = globals.enemiesSkills['skills'].get(kes[i]);
         if(buffer.event === 'damage_taken'){
             dmg = await buffer.callback(userdata, userdata.temp.enemy.skills[kes[i]].lvl, type, dmg);
+        }
+    }
+    for(let i = 0; i < userkeys.length; i++){
+        if(!globals.Skills_list.includes(userkeys[i])){
+            delete userdata.skills[userkeys[i]];
+            continue;
+        }
+        buffer = globals.Skillmap.get(userkeys[i]);
+        if(buffer.event === 'damage_deal_post'){
+            dmg = await buffer.callback(userdata, userdata.skills[userkeys[i]].lvl, type, dmg);
         }
     }
     dmg = Math.round(dmg * 10) / 10;

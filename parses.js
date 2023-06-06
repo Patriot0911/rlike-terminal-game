@@ -1,6 +1,6 @@
 'use strict';
 const { Skillmap, Skills_list, modEvents, enemiesSkills, gMenus } = require('./globals.js');
-const fs = require('fs');
+const fs = require('node:fs');
 
 module.exports = {
     skills ()
@@ -12,7 +12,6 @@ module.exports = {
             if(!skill.info || !skill.callback)
                 continue;
             Skillmap.set(skill.info.name, {
-                lvl:            skill.info.required,
                 displayName:    skill.info.displayName,
                 event:          skill.info.event,
                 cat:            skill.info.cat,

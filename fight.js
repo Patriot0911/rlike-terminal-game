@@ -65,7 +65,6 @@ const FightMain = (userdata, pack) => {
     const params = [];
     const options = [];
     const kes = Object.keys(userdata.skills);
-    
     for(let i = 0; i < kes.length; i++){
         if(!Skills_list.includes(kes[i])){
             delete userdata.skills[kes[i]];

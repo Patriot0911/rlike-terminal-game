@@ -3,6 +3,7 @@ const { clrlog } = require('../utils');
 
 module.exports = {
     async callback(userdata, skill_lvl, dmg_type, dmg){
+        if(skill_lvl <= 0) return dmg;
         if(dmg_type !== dmg_types.poison) return dmg;
         const count = (dmg-dmg*(skill_lvl > 40 ? 40 : skill_lvl)/100);
         const proc = Math.floor(count/dmg);
