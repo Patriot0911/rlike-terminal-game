@@ -1,6 +1,7 @@
 'use strict';
-const { Skillmap, Skills_list, modEvents, enemiesSkills, gMenus } = require('./globals.js');
+const { Skillmap, Skills_list, modEvents, enemiesSkills, gMenus, game_configs } = require('./globals.js');
 const fs = require('node:fs');
+const { parseFile } = require('./utils.js');
 
 module.exports = {
     skills ()
@@ -50,6 +51,22 @@ module.exports = {
             modEvents[ev.info.cat].set(ev.info.name, ev.action);
             modEvents[`${ev.info.cat}_list`].push(ev.info.name);
             ++count_e;
+        }
+        const custFile = parseFile(`./${game_configs["custom_adv"]}`);
+        const keys = Object.keys(custFile);
+        const techcallback = modEvents['tech'] ? modEvents['tech'].get('custom_event') : null;
+        if(keys.length > 0 && techcallback){
+            for(let i = 0; i < keys.length; i++){
+                if(!custFile[keys[i]].cat) continue;
+
+                if(!modEvents[custFile[keys[i]].cat]){
+                    modEvents[custFile[keys[i]].cat] = new Map();
+                    modEvents[`${custFile[keys[i]].cat}_list`] = [];
+                }
+                modEvents[custFile[keys[i]].cat].set(keys[i], techcallback);
+                modEvents[`${custFile[keys[i]].cat}_list`].push(keys[i]);
+                ++count_e;                
+            }
         }
         return count_e;
     },

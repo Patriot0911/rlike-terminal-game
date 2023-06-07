@@ -1,0 +1,9 @@
+{
+    "test_talk":
+    {
+        "cat":  "wander_the_world",
+        "phrases":  "blood_river1|blood_river2",
+        "action":   "xp",
+        "data":     35
+    }
+}

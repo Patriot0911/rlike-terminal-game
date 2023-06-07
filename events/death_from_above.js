@@ -16,17 +16,7 @@ const HndlDragonQuest = async (userdata, data) => {
 
 module.exports = {
     action(userdata, args){
-        const str = phrases['death_from_above'];
-        printUserdata(userdata, {x: 40, y: countSpaces(str)}, 1);
-        return new Selector({
-            question:   str,
-            options:    [['Next']],
-            params:     [['Next']],
-            begin: {
-                x: 0,
-                y: 0
-            }
-        }, HndlDragonQuest, userdata, args);
+        return gMenus.get('phrase_menu')(userdata, args, HndlDragonQuest, 'death_from_above', 1);
     }
 };
 

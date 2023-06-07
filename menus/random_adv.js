@@ -27,7 +27,7 @@ module.exports = {
             userdata.temp.lastadv = eventid;
         }
         const event = modEvents[`${args}_list`][eventid];
-        return modEvents[args].get(event)(userdata, args);
+        return modEvents[args].get(event)(userdata, args, event);
     }
 };
 
